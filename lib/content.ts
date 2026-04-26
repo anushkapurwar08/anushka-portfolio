@@ -106,13 +106,27 @@ export const experiences = [
   },
 ]
 
-export const projects = [
+export type Project = {
+  name: string
+  tag: string
+  stack: string[]
+  link: string
+  linkLabel: string
+  mockup?: string
+  mockupLabel?: string
+  body: string[]
+  why: string
+}
+
+export const projects: Project[] = [
   {
     name: 'Sahaay',
     tag: 'Hyperlocal Women’s Safety App',
     stack: ['Flutter', 'Firebase'],
-    link: '#', // TODO: drop real URL (GitHub / demo)
-    linkLabel: 'View prototype',
+    link: 'https://github.com/anushkapurwar08/sahaay',
+    linkLabel: 'GitHub',
+    mockup: 'https://docs.google.com/document/d/14B8-XffrPV2O7ZBMXBw0I0YEE1JXoty4YP10nXLcE68/edit?usp=sharing',
+    mockupLabel: 'UI Mockup',
     body: [
       'Full-stack Flutter app with real-time SOS triggering, geo-matched responder system, and consented victim–responder connections (chat/call).',
       'Designed end-to-end from PRD → working prototype, including a community crime heatmap and core user flows.',
@@ -124,8 +138,8 @@ export const projects = [
     name: 'Lead Sourcing Engine',
     tag: 'Python · Selenium',
     stack: ['Python', 'Selenium', 'Reddit', 'Instagram'],
-    link: '#', // TODO: drop real URL (GitHub)
-    linkLabel: 'View on GitHub',
+    link: 'https://github.com/anushkapurwar08/Scrapers_Anushka',
+    linkLabel: 'GitHub',
     body: [
       'Dual-platform scraper across Reddit (comment-intent parsing) and Instagram (hashtag traversal + follower filtering + contact details).',
       'Automated pipeline surfacing ~1,000 qualified leads, structured and exported to Excel for outreach.',
@@ -136,8 +150,8 @@ export const projects = [
     name: 'Coursera Auto-Grader',
     tag: 'Vanilla JS · Browser Automation',
     stack: ['JavaScript', 'DOM Automation'],
-    link: '#', // TODO: drop real URL (GitHub / Gist)
-    linkLabel: 'View script',
+    link: 'https://github.com/anushkapurwar08/coursera-auto-grader',
+    linkLabel: 'GitHub',
     body: [
       'Console-injectable JS script that automates rubric-based grading across 1,000+ submissions with a plagiarism-to-score weighted algorithm.',
       'Handles edge cases (no file, no text), auto-paginates across learner pages, and guards against double-grading.',

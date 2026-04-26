@@ -45,15 +45,28 @@ export default function ProjectsRoom() {
             </div>
             <div className="mt-5 flex items-center justify-between gap-3 border-t border-ink/5 pt-4">
               <span className="text-xs font-medium text-ink/50">click to peek inside</span>
-              <a
-                href={p.link}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-sm font-semibold text-lilacDeep hover:underline"
-              >
-                Open link ↗
-              </a>
+              <div className="flex items-center gap-3">
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-sm font-semibold text-lilacDeep hover:underline"
+                >
+                  {p.linkLabel} ↗
+                </a>
+                {p.mockup && (
+                  <a
+                    href={p.mockup}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-sm font-semibold text-lilacDeep hover:underline"
+                  >
+                    {p.mockupLabel} ↗
+                  </a>
+                )}
+              </div>
             </div>
           </motion.button>
         ))}
@@ -108,14 +121,26 @@ export default function ProjectsRoom() {
                     </span>
                   ))}
                 </div>
-                <a
-                  href={active.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-cream transition hover:bg-ink/85"
-                >
-                  {active.linkLabel} ↗
-                </a>
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href={active.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-cream transition hover:bg-ink/85"
+                  >
+                    {active.linkLabel} ↗
+                  </a>
+                  {active.mockup && (
+                    <a
+                      href={active.mockup}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-white px-4 py-2 text-xs font-semibold text-ink transition hover:bg-blush"
+                    >
+                      {active.mockupLabel} ↗
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.div>
           </motion.div>
