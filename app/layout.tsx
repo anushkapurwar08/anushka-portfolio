@@ -11,15 +11,27 @@ const deva = Tiro_Devanagari_Hindi({
   display: 'swap',
 })
 
+const SITE_URL = 'https://anushka-portfolio-i7xi.vercel.app'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Anushka Purwar — Product Manager',
   description:
     'Anushka Purwar — PM, builder, founder’s-office operator. BITS Pilani ’27.',
   keywords: ['Anushka Purwar', 'Product Manager', 'AI PM', 'Founder’s Office', 'BITS Pilani'],
+  alternates: { canonical: SITE_URL },
   openGraph: {
     title: 'Anushka Purwar — Product Manager',
     description: 'Welcome to AnushkaLand. This Barbie loves building products.',
+    url: SITE_URL,
+    siteName: 'AnushkaLand',
     type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Anushka Purwar — Product Manager',
+    description: 'Welcome to AnushkaLand. This Barbie loves building products.',
   },
 }
 

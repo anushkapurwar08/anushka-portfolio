@@ -2,6 +2,8 @@
 
 > Welcome to AnushkaLand — a small interactive house, with rooms instead of sections.
 
+**Live:** [anushka-portfolio-i7xi.vercel.app](https://anushka-portfolio-i7xi.vercel.app/)
+
 The personal portfolio site of **Anushka Purwar** — Product, GTM & Founder’s Office · BITS Pilani ’27.
 
 The homepage is intentionally short — a hero with a hand-drawn dollhouse, then three quotes that keep me moving. Everything else lives behind the front door, as a guided tour through five rooms.
