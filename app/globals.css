@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FFF8F0;
+  --ink: #2D2D2D;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection */
+::selection { background: #D8B4F8; color: #2D2D2D; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #FFF8F0; }
+::-webkit-scrollbar-thumb { background: #F8E8EE; border-radius: 8px; border: 2px solid #FFF8F0; }
+::-webkit-scrollbar-thumb:hover { background: #D8B4F8; }
+
+@layer components {
+  .room {
+    @apply relative min-h-screen w-full px-6 py-20 md:px-12 lg:px-24 flex flex-col justify-center;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-xs font-medium text-ink/70 backdrop-blur;
+  }
+  .card {
+    @apply rounded-3xl border border-ink/5 bg-white/80 p-6 shadow-soft backdrop-blur transition;
+  }
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-[0_18px_50px_-15px_rgba(45,45,45,0.25)];
+  }
+  .h-display {
+    @apply font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight;
+  }
+  .h-section {
+    @apply font-display text-3xl md:text-5xl leading-tight tracking-tight;
+  }
+  .eyebrow {
+    @apply text-xs uppercase tracking-[0.2em] text-ink/50 font-semibold;
+  }
+}
+
+/* subtle floating animation */
+@keyframes float {
+  0%,100% { transform: translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+.float { animation: float 6s ease-in-out infinite; }
