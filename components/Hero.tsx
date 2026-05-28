@@ -20,7 +20,7 @@ export default function Hero() {
             transition={{ delay: 0.1, duration: 0.7 }}
             className="h-display"
           >
-            Hi <span className="inline-block animate-pulse">👋</span>
+            This is <span className="inline-block animate-pulse">👋</span>
             <br />
             <span className="text-lilacDeep">{profile.name}</span>
             <span className="ml-1 align-top text-3xl text-lilac">.</span>
@@ -32,9 +32,9 @@ export default function Hero() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70"
           >
-            BITS Pilani ’27 · Product, GTM & Founder’s Office.
+            {profile.tagline}
             <br />
-            I build things, then talk about them in quotes.
+            {profile.taglineSub}
           </motion.p>
 
           <motion.div

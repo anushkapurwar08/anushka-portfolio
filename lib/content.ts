@@ -4,25 +4,43 @@ export type Mode = 'playful' | 'professional'
 
 export const profile = {
   name: 'Anushka Purwar',
-  title: 'Product Manager · Founder’s Office · Builder',
+  title: 'AI Product Manager · Founder’s Office · Builder',
+  tagline: 'BITS Pilani ’27 · AI PM, Product & Founder’s Office.',
+  taglineSub: 'I build things, then talk about them in quotes.',
   one: {
-    playful: 'This Barbie loves building products.',
-    professional: 'Product, GTM, and operator-thinking — built across founder’s offices and student-run accelerators.',
+    playful: 'This Barbie builds AI products.',
+    professional:
+      'AI PM at Glance (InMobi) — product, GTM, and operator-thinking built across founder’s offices and Asia’s largest student-run accelerator.',
   },
   long: {
     playful:
-      'I’m Anushka — part product thinker, part operator, part founder’s-office intern, full-time problem solver. I like messy zero-to-one problems and shipping things that move a number.',
+      'I’m Anushka — part product thinker, part operator, part founder’s-office intern, full-time problem solver. Right now I’m building AI-powered shopping for 50M+ TVs at Glance. I like messy zero-to-one problems and shipping things that move a number.',
     professional:
-      'BITS Pilani student in CS & Finance with hands-on experience across product, GTM, and operations at early-stage startups, plus mentor-and-government leadership at Asia’s largest student-run accelerator.',
+      'BITS Pilani student building AI-powered agentic commerce at Glance (InMobi), with hands-on experience across product, GTM, and operations at early-stage startups, plus mentor-and-government leadership at Asia’s largest student-run accelerator.',
   },
   email: 'f20231173@pilani.bits-pilani.ac.in',
   phone: '+91-9205727214',
   linkedin: 'https://www.linkedin.com/in/anushka-purwar-5479712aa/',
   resume: '/resume.pdf',
-  education: 'B.E. + Minor in Finance, BITS Pilani · 2023–2027',
+  education: 'B.Pharm + Minor in Finance, BITS Pilani · 2023–2027',
+  eduNote: 'yes, I know — I do neither of those for a living :P',
 }
 
 export const experiences = [
+  {
+    role: 'Product Management Intern',
+    company: 'Glance (InMobi)',
+    period: 'May 2026 – Present',
+    color: 'bg-lilac/30',
+    problem:
+      'Reimagine TV-native shopping for 50M+ connected TVs in the US — turning ambient screens into agentic, personalized commerce.',
+    actions: [
+      'Building AI-powered agentic shopping experiences for 50M+ connected TVs in the US market.',
+      'Working at the intersection of AI, commerce, and personalization to reimagine TV-native shopping journeys.',
+      'Collaborating across product and engineering to design scalable ambient commerce and engagement workflows.',
+    ],
+    impact: ['50M+ connected TVs', 'AI × commerce × personalization', 'Ambient, agentic shopping'],
+  },
   {
     role: 'Product & GTM Intern',
     company: 'Stealth — under ex-Product leadership from Uber & Meesho',
@@ -202,6 +220,24 @@ export const skills = {
   Data: ['SQL', 'Excel', 'Panel Data Regression', 'Python (beginner)'],
   Soft: ['Stakeholder Mgmt', 'Storytelling', 'Negotiation', 'Cross-functional ownership'],
 }
+
+// Hobbies / personality for the Sunroom
+export const hobbies = [
+  { emoji: '💃', label: 'Dance', note: 'Member, Dance Club @ BITS Pilani' },
+  { emoji: '📚', label: 'Reading', note: 'Quotes, ideas, and the occasional founder memoir' },
+  { emoji: '🧪', label: 'Lab rat', note: 'Stem cells & lung fibrosis research on the side' },
+  { emoji: '🗣️', label: 'Debate / MUN', note: 'Best Delegate — I argue for fun' },
+  { emoji: '🚀', label: 'Startup nerd', note: 'Reviewed 1,000+ decks and still want to read yours' },
+]
+
+// Books / things on the Library shelf
+export const shelf = [
+  'Founder memoirs',
+  'Product & strategy',
+  'Behavioral econ',
+  'A little philosophy',
+  'Anything with a good story',
+]
 
 export const easterEgg = {
   playful:
