@@ -6,7 +6,6 @@ import ProgressBar from '@/components/ProgressBar'
 import Hero from '@/components/Hero'
 import Quotes from '@/components/Quotes'
 import Tour from '@/components/Tour'
-import EasterEgg from '@/components/EasterEgg'
 import BuildWithMe from '@/components/BuildWithMe'
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
             <Hero />
             <Quotes onTour={() => setTourOpen(true)} />
           </main>
-          <EasterEgg />
           <BuildWithMe />
         </>
       )}
