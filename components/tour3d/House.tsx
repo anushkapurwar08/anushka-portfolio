@@ -17,6 +17,11 @@ const C = {
   fabric: '#CDBFAE',    // muted upholstery
   green: '#8FA98A',     // muted plant
   glow: '#FFE9C2',      // warm light
+  // exterior — matches the homepage dollhouse
+  roof: '#D8B4F8',      // soft purple roof
+  roofDark: '#b893e8',  // roof shade
+  cream: '#FFF8F0',     // house body
+  windowPink: '#F8E8EE',// pink window glass
 }
 
 // Camera waypoints per view: [position, lookAt]
@@ -326,22 +331,19 @@ function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
   )
 }
 
-// Roof + sign
+// Roof — soft purple, matching the homepage dollhouse
 function Roof() {
   return (
     <group>
-      <mesh position={[0, 6.6, 0]}>
-        <coneGeometry args={[6.6, 1.7, 4]} />
-        <meshStandardMaterial color={C.wall} roughness={0.95} />
+      <mesh position={[0, 6.6, 0]} rotation={[0, Math.PI / 4, 0]} castShadow>
+        <coneGeometry args={[6.6, 1.9, 4]} />
+        <meshStandardMaterial color={C.roof} roughness={0.85} />
       </mesh>
-      {/* gold ridge ring */}
-      <mesh position={[0, 5.85, 0]}>
-        <boxGeometry args={[6.4, 0.06, 0.06]} />
-        <Gold />
+      {/* a touch of shade under the eave */}
+      <mesh position={[0, 5.7, 0]}>
+        <boxGeometry args={[6.5, 0.1, 6.5]} />
+        <meshStandardMaterial color={C.roofDark} roughness={0.9} />
       </mesh>
-      <Text position={[0, 6.45, FRONT_Z + 0.2]} fontSize={0.38} color={C.gold} anchorX="center" anchorY="middle" letterSpacing={0.12}>
-        ANUSHKALAND
-      </Text>
     </group>
   )
 }
@@ -361,7 +363,7 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
     }
   })
   const wallMat = (i: number) => (
-    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.wall} roughness={0.95} transparent opacity={1} />
+    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.cream} roughness={0.9} transparent opacity={1} />
   )
   return (
     <group ref={grp}>
@@ -380,15 +382,27 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
         <boxGeometry args={[BAY_W, 3.0, 0.1]} />
         {wallMat(2)}
       </mesh>
-      {/* window hints on facade */}
-      <mesh position={[X.left, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[5]=r as THREE.MeshStandardMaterial}} color={C.glow} emissive={C.glow} emissiveIntensity={0.2} transparent opacity={1} /></mesh>
-      <mesh position={[X.right, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[6]=r as THREE.MeshStandardMaterial}} color={C.glow} emissive={C.glow} emissiveIntensity={0.2} transparent opacity={1} /></mesh>
-      {/* gold window frames */}
-      <mesh position={[X.left, 4.6, FRONT_Z + 0.09]}><boxGeometry args={[1.16, 0.04, 0.02]} /><Gold transparent opacity={1} /></mesh>
-      <mesh position={[X.right, 4.6, FRONT_Z + 0.09]}><boxGeometry args={[1.16, 0.04, 0.02]} /><Gold transparent opacity={1} /></mesh>
-      {/* door frame */}
-      <mesh position={[X.mid, 1.4, FRONT_Z + 0.02]}><boxGeometry args={[1.5, 2.7, 0.06]} /><Gold transparent opacity={1} /></mesh>
-      {/* door (swings) */}
+      {/* pink windows with dark frame + cross mullions (like the homepage dollhouse) */}
+      {[X.left, X.right].map((wx, k) => (
+        <group key={k} position={[wx, 4.6, FRONT_Z + 0.05]}>
+          {/* dark frame backing */}
+          <mesh position={[0, 0, 0]}><boxGeometry args={[1.18, 1.18, 0.04]} /><meshStandardMaterial color={C.ink} roughness={0.7} /></mesh>
+          {/* pink pane */}
+          <mesh position={[0, 0, 0.03]}><boxGeometry args={[1.04, 1.04, 0.03]} /><meshStandardMaterial color={C.windowPink} roughness={0.4} /></mesh>
+          {/* mullions */}
+          <mesh position={[0, 0, 0.06]}><boxGeometry args={[0.05, 1.04, 0.02]} /><meshStandardMaterial color={C.ink} /></mesh>
+          <mesh position={[0, 0, 0.06]}><boxGeometry args={[1.04, 0.05, 0.02]} /><meshStandardMaterial color={C.ink} /></mesh>
+        </group>
+      ))}
+      {/* heart above the door */}
+      <group position={[X.mid, 3.15, FRONT_Z + 0.05]}>
+        <mesh position={[-0.12, 0.07, 0]}><circleGeometry args={[0.14, 24]} /><meshStandardMaterial color={C.windowPink} side={THREE.DoubleSide} /></mesh>
+        <mesh position={[0.12, 0.07, 0]}><circleGeometry args={[0.14, 24]} /><meshStandardMaterial color={C.windowPink} side={THREE.DoubleSide} /></mesh>
+        <mesh position={[0, -0.04, 0]} rotation={[0, 0, Math.PI / 4]}><planeGeometry args={[0.3, 0.3]} /><meshStandardMaterial color={C.windowPink} side={THREE.DoubleSide} /></mesh>
+      </group>
+      {/* dark door frame */}
+      <mesh position={[X.mid, 1.4, FRONT_Z + 0.02]}><boxGeometry args={[1.5, 2.7, 0.06]} /><meshStandardMaterial color={C.ink} roughness={0.7} /></mesh>
+      {/* door (swings) — soft purple */}
       <group ref={door} position={[X.mid - 0.6, 1.35, FRONT_Z + 0.05]}>
         <mesh
           position={[0.6, 0, 0]}
@@ -397,9 +411,9 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
           onPointerOut={() => cursor(false)}
         >
           <boxGeometry args={[1.2, 2.4, 0.08]} />
-          <meshStandardMaterial ref={(r)=>{if(r)matRefs.current[4]=r as THREE.MeshStandardMaterial}} color={C.accent} roughness={0.5} transparent opacity={1} />
+          <meshStandardMaterial ref={(r)=>{if(r)matRefs.current[4]=r as THREE.MeshStandardMaterial}} color={C.roof} roughness={0.6} transparent opacity={1} />
         </mesh>
-        <mesh position={[1.05, 0, 0.08]}><sphereGeometry args={[0.05, 16, 16]} /><Gold /></mesh>
+        <mesh position={[1.05, 0, 0.08]}><sphereGeometry args={[0.05, 16, 16]} /><meshStandardMaterial color={C.ink} /></mesh>
       </group>
       {/* welcome mat text */}
       <Text position={[X.mid, 0.15, FRONT_Z + 1.0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.16} color={C.ink} anchorX="center" anchorY="middle" letterSpacing={0.06}>
