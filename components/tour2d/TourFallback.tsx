@@ -6,7 +6,7 @@ import { profile } from '@/lib/content'
 import { PANELS, AboutPanel, FarewellPanel } from '@/components/tour/panels'
 
 const NAME: Record<ViewId, string> = {
-  exterior: 'AnushkaLand', hall: 'The Entrance Hall',
+  exterior: 'Welcome!', hall: 'The Entrance Hall',
   kitchen: 'The Kitchen', studio: 'The Studio', sunroom: 'The Sunroom', farewell: 'See you soon',
 }
 
