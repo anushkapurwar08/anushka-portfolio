@@ -5,8 +5,8 @@ export type Mode = 'playful' | 'professional'
 export const profile = {
   name: 'Anushka Purwar',
   title: 'AI Product Manager · Founder’s Office · Builder',
-  tagline: 'BITS Pilani ’27 · AI PM, Product & Founder’s Office.',
-  taglineSub: 'I build things, then talk about them in quotes.',
+  tagline: 'One word to describe myself — Intuitive.',
+  taglineSub: 'How my friends would describe me — Passionate, Creative, Quirky (glorified weird :P).',
   one: {
     playful: 'This Barbie builds AI products.',
     professional:
@@ -24,6 +24,24 @@ export const profile = {
   resume: '/resume.pdf',
   education: 'B.Pharm + Minor in Finance, BITS Pilani · 2023–2027',
   eduNote: 'yes, I know — I do neither of those for a living :P',
+}
+
+// "About the owner" magazine content
+export const about = {
+  intro:
+    "Undergrad at BITS Pilani — Pharmacy degree, Finance minor. And no, I don't do either for a living :P",
+  roles: ['Product Roles', "Founder’s Office Roles"],
+  autonomyPre: 'I look forward to roles where I am given ',
+  autonomyWord: 'creative autonomy', // rendered in purple + italics
+  autonomyPost: '.',
+  movie: 'Fav movie genre — disaster & horror. Drop suggestions, if any 👇',
+}
+
+// Featured "personal favourite" highlight for the Sunroom
+export const personalFav = {
+  label: 'My personal favourite',
+  body:
+    "I read an article about menstrual blood having stem cells — and went ahead and researched it for an entire semester, using my own samples. I love doing unconventional stuff, and I'm not scared to start a trend.",
 }
 
 export const experiences = [
@@ -47,13 +65,13 @@ export const experiences = [
     period: 'Sept 2025 – Nov 2025',
     color: 'bg-lilac/30',
     problem:
-      'Early-stage product with no validated wedge — needed to find the first 1,000 leads and a problem worth solving.',
+      'Early-stage product with no validated wedge — needed to find a problem worth building before writing a line of code.',
     actions: [
-      'Built an automated lead sourcing & scraping system across Reddit and Instagram, surfacing ~1,000 qualified leads.',
-      'Drove −1 → 0 product discovery — user interviews, low-fidelity prototypes, and adoption tests.',
-      'Ran growth experiments — marketing assets, landing pages, and funnels — to validate demand across multiple problem spaces.',
+      'Ran −1 → 0 product discovery end-to-end — user interviews, low-fidelity prototypes, and growth experiments to validate demand across multiple problem spaces.',
+      'Built and tested marketing assets, landing pages, and funnels to pressure-test each hypothesis with real users.',
+      'Turned messy signal into a falsifiable wedge — killing weak bets fast and doubling down on what actually pulled.',
     ],
-    impact: ['~1,000 leads sourced', 'End-to-end discovery loop', 'Demand validated in days, not weeks'],
+    impact: ['−1 → 0 discovery, end-to-end', 'Demand validated in days', 'Multiple problem spaces tested'],
   },
   {
     role: 'Founder’s Office Intern',
@@ -208,7 +226,6 @@ export const achievements = [
   'Winner · Multiverse of Marketing, BITS Pilani',
   'Finalist · D. E. Shaw & Co. Finspire Fellowship',
   'Selected · Harvard Project for Asian and International Relations (HPAIR ’24)',
-  '99.9 percentile · Chemistry, CUET',
   'Best Delegate · All India Political Party Meet (MUN)',
   'Member · Dance Club, BITS Pilani',
 ]
@@ -226,7 +243,7 @@ export const hobbies = [
   { emoji: '💃', label: 'Dance', note: 'Member, Dance Club @ BITS Pilani' },
   { emoji: '📚', label: 'Reading', note: 'Quotes, ideas, and the occasional founder memoir' },
   { emoji: '🧪', label: 'Lab rat', note: 'Stem cells & lung fibrosis research on the side' },
-  { emoji: '🗣️', label: 'Debate / MUN', note: 'Best Delegate — I argue for fun' },
+  { emoji: '🗣️', label: 'Debate / MUN', note: 'Best Delegate' },
   { emoji: '🚀', label: 'Startup nerd', note: 'Reviewed 1,000+ decks and still want to read yours' },
 ]
 
