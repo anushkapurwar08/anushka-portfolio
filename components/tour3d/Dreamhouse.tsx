@@ -20,6 +20,15 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
   const [view, setView] = useState<ViewId>('exterior')
   const [entered, setEntered] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [visited, setVisited] = useState<Set<RoomId>>(new Set())
+
+  // Tour progress lingers from the homepage: fills as rooms are seen, 100% at the farewell.
+  useEffect(() => {
+    if ((['kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)) {
+      setVisited((prev) => (prev.has(view as RoomId) ? prev : new Set(prev).add(view as RoomId)))
+    }
+  }, [view])
+  const tourPct = view === 'farewell' ? 100 : Math.round((visited.size / 3) * 100)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -54,6 +63,11 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
         </Canvas>
       </div>
 
+      {/* Tour progress bar — lingers from the homepage until the tour is complete */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-1 bg-lilac/25">
+        <div className="h-full bg-lilacDeep transition-all duration-700 ease-out" style={{ width: `${tourPct}%` }} />
+      </div>
+
       {/* Top chrome */}
       <header className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 md:p-6">
         <div className="pointer-events-auto flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 shadow-soft backdrop-blur">
@@ -61,6 +75,9 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
           <div className="font-display text-base leading-none text-ink">{NAME[view]}</div>
         </div>
         <div className="pointer-events-auto flex items-center gap-2">
+          <div className="hidden rounded-full border border-ink/10 bg-white/80 px-3 py-2 text-xs font-semibold text-ink/70 shadow-soft backdrop-blur sm:block">
+            Tour progress: {tourPct}%
+          </div>
           <a href={profile.resume} target="_blank" className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-ink shadow-soft backdrop-blur transition hover:bg-blush">↓ Résumé</a>
           <button onClick={onExit} className="rounded-full bg-white/80 px-3 py-2 text-xs font-semibold text-ink/70 shadow-soft backdrop-blur transition hover:bg-blush">✕ exit</button>
         </div>
