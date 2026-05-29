@@ -43,21 +43,34 @@ function HouseMap({ view, onPick, onAbout }: { view: ViewId; onPick: (id: RoomId
 export default function TourFallback({ onExit }: { onExit: () => void }) {
   const [view, setView] = useState<ViewId>('hall')
   const [aboutOpen, setAboutOpen] = useState(false)
+  const [visited, setVisited] = useState<Set<RoomId>>(new Set())
   useEffect(() => { document.body.style.overflow = 'auto'; window.scrollTo(0, 0) }, [])
+  useEffect(() => {
+    if ((['kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)) {
+      setVisited((prev) => (prev.has(view as RoomId) ? prev : new Set(prev).add(view as RoomId)))
+    }
+  }, [view])
+  const tourPct = view === 'farewell' ? 100 : Math.round((visited.size / 3) * 100)
 
   const isRoom = (['kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)
   const Panel = isRoom ? PANELS[view as RoomId] : null
 
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-gradient-to-b from-[#FFF8F0] to-[#F3E8FB]">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-ink/5 bg-white/80 px-4 py-3 backdrop-blur">
-        <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-lilac/40 text-sm">🏠</span>
-          <span className="font-display text-base text-ink">{NAME[view]}</span>
+      <header className="sticky top-0 z-10 border-b border-ink/5 bg-white/80 backdrop-blur">
+        <div className="h-1 w-full bg-lilac/25">
+          <div className="h-full bg-lilacDeep transition-all duration-700 ease-out" style={{ width: `${tourPct}%` }} />
         </div>
-        <div className="flex items-center gap-2">
-          <a href={profile.resume} target="_blank" className="rounded-full bg-blush px-3 py-1.5 text-xs font-semibold text-ink">↓ Résumé</a>
-          <button onClick={onExit} className="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink/70 ring-1 ring-ink/10">✕</button>
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            <span className="grid h-7 w-7 place-items-center rounded-lg bg-lilac/40 text-sm">🏠</span>
+            <span className="font-display text-base text-ink">{NAME[view]}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-semibold text-ink/55">{tourPct}%</span>
+            <a href={profile.resume} target="_blank" className="rounded-full bg-blush px-3 py-1.5 text-xs font-semibold text-ink">↓ Résumé</a>
+            <button onClick={onExit} className="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink/70 ring-1 ring-ink/10">✕</button>
+          </div>
         </div>
       </header>
 
