@@ -6,7 +6,7 @@ export const profile = {
   name: 'Anushka Purwar',
   title: 'AI Product Manager · Founder’s Office · Builder',
   tagline: 'One word to describe myself — Intuitive.',
-  taglineSub: 'How my friends would describe me — Passionate, Creative, Quirky (glorified weird :P).',
+  taglineSub: 'How my friends would describe me — Passionate, Creative, Quirky.',
   one: {
     playful: 'This Barbie builds AI products.',
     professional:
