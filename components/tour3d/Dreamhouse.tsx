@@ -10,7 +10,6 @@ import { PANELS, AboutPanel, FarewellPanel } from '@/components/tour/panels'
 const NAME: Record<ViewId, string> = {
   exterior: 'AnushkaLand',
   hall: 'The Entrance Hall',
-  library: 'The Library',
   kitchen: 'The Kitchen',
   studio: 'The Studio',
   sunroom: 'The Sunroom',
@@ -38,7 +37,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
   function enterHall() { setEntered(true); setView('hall') }
   function goRoom(id: RoomId) { setEntered(true); setView(id) }
 
-  const isRoom = (['library', 'kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)
+  const isRoom = (['kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)
   const Panel = isRoom ? PANELS[view as RoomId] : null
 
   return (
@@ -48,7 +47,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
     >
       {/* 3D layer */}
       <div className="absolute inset-0">
-        <Canvas camera={{ position: CAMERA.exterior.pos, fov: 45 }} dpr={[1, 1.8]} gl={{ antialias: true }}>
+        <Canvas shadows camera={{ position: CAMERA.exterior.pos, fov: 45 }} dpr={[1, 1.8]} gl={{ antialias: true }}>
           <Suspense fallback={null}>
             <House view={view} entered={entered} onEnterHall={enterHall} onSelectRoom={goRoom} onOpenAbout={() => setAboutOpen(true)} />
           </Suspense>
@@ -107,8 +106,6 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
             className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col md:w-[42%]"
           >
             <div className="m-3 mt-20 flex-1 overflow-y-auto rounded-3xl border border-ink/10 bg-white/85 p-5 shadow-soft backdrop-blur md:m-4 md:mt-20 md:p-6">
-              <div className="eyebrow">{ROOMS.find((r) => r.id === view)?.subtitle}</div>
-              <h2 className="h-section mb-4 mt-1">{NAME[view]}</h2>
               <Panel />
             </div>
           </motion.aside>

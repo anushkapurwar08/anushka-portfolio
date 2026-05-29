@@ -5,26 +5,28 @@ import { Text, RoundedBox } from '@react-three/drei'
 import * as THREE from 'three'
 import type { RoomId, ViewId } from '@/lib/tour'
 
-// Palette
+// ── Minimal-luxe palette ──────────────────────────────────────────────
 const C = {
-  cream: '#FFF8F0',
-  blush: '#F8E8EE',
-  lilac: '#D8B4F8',
-  lilacDeep: '#8B5CC0',
+  wall: '#DCD4C7',      // warm greige
+  wallSoft: '#E8E1D5',  // lighter greige
+  marble: '#F1ECE4',    // polished floor
+  trimWhite: '#FBF8F2',
+  gold: '#C2A368',      // brass
   ink: '#2D2D2D',
-  sage: '#C9DABF',
-  sun: '#FCD34D',
+  accent: '#8B5CC0',    // signature purple, used sparingly
+  fabric: '#CDBFAE',    // muted upholstery
+  green: '#8FA98A',     // muted plant
+  glow: '#FFE9C2',      // warm light
 }
 
 // Camera waypoints per view: [position, lookAt]
 export const CAMERA: Record<ViewId, { pos: [number, number, number]; tgt: [number, number, number] }> = {
-  exterior: { pos: [0, 3.0, 17], tgt: [0, 3.0, 0] },
-  hall: { pos: [0, 1.5, 7.5], tgt: [0, 1.4, 0] },
-  kitchen: { pos: [-3, 1.5, 6.2], tgt: [-3, 1.4, -1] },
-  sunroom: { pos: [3, 1.5, 6.2], tgt: [3, 1.4, -1] },
-  library: { pos: [-3, 4.6, 6.2], tgt: [-3, 4.5, -1] },
-  studio: { pos: [3, 4.6, 6.2], tgt: [3, 4.5, -1] },
-  farewell: { pos: [0, 3.0, 15], tgt: [0, 3.0, 0] },
+  exterior: { pos: [0, 3.2, 17], tgt: [0, 3.0, 0] },
+  hall: { pos: [0, 1.5, 7.4], tgt: [0, 1.4, -0.6] },
+  kitchen: { pos: [-3, 1.5, 6.0], tgt: [-3, 1.4, -1] },
+  sunroom: { pos: [3, 1.5, 6.0], tgt: [3, 1.4, -1] },
+  studio: { pos: [0, 4.7, 6.0], tgt: [0, 4.6, -1] },
+  farewell: { pos: [0, 3.2, 15], tgt: [0, 3.0, 0] },
 }
 
 // Bay x-centers
@@ -40,29 +42,43 @@ function cursor(on: boolean) {
   if (typeof document !== 'undefined') document.body.style.cursor = on ? 'pointer' : 'auto'
 }
 
-// A single room shell: floor, back wall, ceiling, dividers
-function Shell({ x, y, color }: { x: number; y: number; color: string }) {
+// Thin brass material helper
+function Gold(props: any) {
+  return <meshStandardMaterial color={C.gold} metalness={0.85} roughness={0.35} {...props} />
+}
+
+// A single room shell: marble floor, greige back wall, ceiling, dividers, gold trim
+function Shell({ x, y }: { x: number; y: number }) {
   return (
     <group>
-      {/* floor */}
+      {/* floor (polished marble) */}
       <mesh position={[x, y + 0.05, 0]} receiveShadow>
         <boxGeometry args={[BAY_W, 0.1, 3.4]} />
-        <meshStandardMaterial color={C.cream} />
+        <meshStandardMaterial color={C.marble} metalness={0.1} roughness={0.45} />
       </mesh>
       {/* back wall */}
-      <mesh position={[x, y + FLOOR_H / 2, BACK_Z]}>
+      <mesh position={[x, y + FLOOR_H / 2, BACK_Z]} receiveShadow>
         <boxGeometry args={[BAY_W, FLOOR_H, 0.12]} />
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial color={C.wall} roughness={0.95} />
       </mesh>
-      {/* left divider */}
+      {/* gold baseboard */}
+      <mesh position={[x, y + 0.18, BACK_Z + 0.07]}>
+        <boxGeometry args={[BAY_W, 0.08, 0.04]} />
+        <Gold />
+      </mesh>
+      {/* gold cornice */}
+      <mesh position={[x, y + FLOOR_H - 0.08, BACK_Z + 0.07]}>
+        <boxGeometry args={[BAY_W, 0.05, 0.04]} />
+        <Gold />
+      </mesh>
+      {/* dividers */}
       <mesh position={[x - BAY_W / 2, y + FLOOR_H / 2, 0]}>
         <boxGeometry args={[0.1, FLOOR_H, 3.4]} />
-        <meshStandardMaterial color={'#ffffff'} />
+        <meshStandardMaterial color={C.trimWhite} roughness={0.9} />
       </mesh>
-      {/* right divider */}
       <mesh position={[x + BAY_W / 2, y + FLOOR_H / 2, 0]}>
         <boxGeometry args={[0.1, FLOOR_H, 3.4]} />
-        <meshStandardMaterial color={'#ffffff'} />
+        <meshStandardMaterial color={C.trimWhite} roughness={0.9} />
       </mesh>
     </group>
   )
@@ -70,7 +86,7 @@ function Shell({ x, y, color }: { x: number; y: number; color: string }) {
 
 function RoomLabel({ x, y, text }: { x: number; y: number; text: string }) {
   return (
-    <Text position={[x, y + 2.55, BACK_Z + 0.08]} fontSize={0.32} color={C.ink} anchorX="center" anchorY="middle" maxWidth={BAY_W - 0.3} textAlign="center">
+    <Text position={[x, y + 2.5, BACK_Z + 0.08]} fontSize={0.26} color={C.ink} anchorX="center" anchorY="middle" maxWidth={BAY_W - 0.3} textAlign="center" letterSpacing={0.06}>
       {text}
     </Text>
   )
@@ -86,148 +102,226 @@ function RoomHit({ x, y, onClick, active }: { x: number; y: number; onClick: () 
       onPointerOut={() => cursor(false)}
     >
       <boxGeometry args={[BAY_W - 0.2, FLOOR_H - 0.2, 2.8]} />
-      <meshStandardMaterial transparent opacity={active ? 0.0 : 0.04} color={C.lilacDeep} depthWrite={false} />
+      <meshStandardMaterial transparent opacity={active ? 0.0 : 0.03} color={C.accent} depthWrite={false} />
     </mesh>
   )
 }
 
-// ---- Furniture ----
-function Bookshelf({ x, y }: { x: number; y: number }) {
-  const cols = [C.lilac, C.blush, C.sage, C.lilacDeep, C.sun]
+// ── Decorative props ──────────────────────────────────────────────────
+function Vase({ position, branch = true }: { position: [number, number, number]; branch?: boolean }) {
   return (
-    <group position={[x - 0.6, y, BACK_Z + 0.5]}>
-      <RoundedBox args={[1.5, 1.8, 0.4]} radius={0.05} position={[0, 0.95, 0]}>
-        <meshStandardMaterial color={'#e7d7c9'} />
-      </RoundedBox>
-      {[0.45, 1.0, 1.55].map((shelfY, si) => (
-        <group key={si} position={[0, shelfY, 0.05]}>
-          {cols.map((c, i) => (
-            <mesh key={i} position={[-0.55 + i * 0.26, 0.05, 0]}>
-              <boxGeometry args={[0.16, 0.34, 0.22]} />
-              <meshStandardMaterial color={c} />
-            </mesh>
-          ))}
-        </group>
-      ))}
+    <group position={position}>
+      <mesh castShadow><cylinderGeometry args={[0.08, 0.12, 0.42, 20]} /><meshStandardMaterial color={C.trimWhite} roughness={0.4} /></mesh>
+      {branch && (
+        <>
+          <mesh position={[0, 0.35, 0]} rotation={[0, 0, 0.2]}><cylinderGeometry args={[0.006, 0.01, 0.6, 6]} /><meshStandardMaterial color={C.ink} /></mesh>
+          <mesh position={[0.1, 0.62, 0]}><sphereGeometry args={[0.07, 12, 12]} /><meshStandardMaterial color={C.green} /></mesh>
+          <mesh position={[-0.05, 0.5, 0.04]}><sphereGeometry args={[0.05, 12, 12]} /><meshStandardMaterial color={C.green} /></mesh>
+        </>
+      )}
     </group>
   )
 }
 
-function Desk({ x, y }: { x: number; y: number }) {
+function FloorPlant({ position }: { position: [number, number, number] }) {
   return (
-    <group position={[x + 0.4, y, BACK_Z + 0.7]}>
-      <RoundedBox args={[1.4, 0.12, 0.7]} radius={0.04} position={[0, 0.75, 0]}>
-        <meshStandardMaterial color={'#e7d7c9'} />
-      </RoundedBox>
-      <mesh position={[0, 0.37, 0]}><boxGeometry args={[0.1, 0.75, 0.1]} /><meshStandardMaterial color={C.ink} /></mesh>
-      {/* monitor */}
-      <RoundedBox args={[0.7, 0.45, 0.05]} radius={0.03} position={[0, 1.15, -0.1]}>
-        <meshStandardMaterial color={C.lilacDeep} emissive={C.lilac} emissiveIntensity={0.25} />
-      </RoundedBox>
-      <mesh position={[0, 0.85, -0.1]}><boxGeometry args={[0.1, 0.18, 0.1]} /><meshStandardMaterial color={C.ink} /></mesh>
+    <group position={position}>
+      <mesh castShadow><cylinderGeometry args={[0.2, 0.16, 0.45, 20]} /><meshStandardMaterial color={C.trimWhite} roughness={0.5} /></mesh>
+      <mesh position={[0, 0.5, 0]}><sphereGeometry args={[0.34, 18, 18]} /><meshStandardMaterial color={C.green} roughness={0.9} /></mesh>
+      <mesh position={[0.18, 0.7, 0.05]}><sphereGeometry args={[0.2, 16, 16]} /><meshStandardMaterial color={C.green} roughness={0.9} /></mesh>
+      <mesh position={[-0.16, 0.66, -0.04]}><sphereGeometry args={[0.18, 16, 16]} /><meshStandardMaterial color={C.green} roughness={0.9} /></mesh>
     </group>
   )
 }
 
-function Kitchen({ x, y }: { x: number; y: number }) {
+// Framed wall art with purple accent
+function FramedArt({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      <mesh><boxGeometry args={[0.72, 0.92, 0.04]} /><Gold /></mesh>
+      <mesh position={[0, 0, 0.03]}><boxGeometry args={[0.6, 0.8, 0.02]} /><meshStandardMaterial color={C.accent} roughness={0.6} /></mesh>
+      <mesh position={[0, -0.05, 0.045]}><boxGeometry args={[0.4, 0.4, 0.01]} /><meshStandardMaterial color={C.wallSoft} /></mesh>
+    </group>
+  )
+}
+
+// Pendant light (cord + brass shade + warm glow)
+function Pendant({ position, swing = false }: { position: [number, number, number]; swing?: boolean }) {
+  const ref = useRef<THREE.Group>(null)
+  useFrame((s) => { if (swing && ref.current) ref.current.rotation.z = Math.sin(s.clock.elapsedTime * 0.8) * 0.04 })
+  return (
+    <group ref={ref} position={position}>
+      <mesh position={[0, -0.35, 0]}><cylinderGeometry args={[0.008, 0.008, 0.7, 8]} /><meshStandardMaterial color={C.ink} /></mesh>
+      <mesh position={[0, -0.72, 0]}><coneGeometry args={[0.18, 0.24, 24, 1, true]} /><meshStandardMaterial color={C.gold} metalness={0.85} roughness={0.35} side={THREE.DoubleSide} /></mesh>
+      <mesh position={[0, -0.78, 0]}><sphereGeometry args={[0.07, 16, 16]} /><meshStandardMaterial color={C.glow} emissive={C.glow} emissiveIntensity={1.1} /></mesh>
+      <pointLight position={[0, -0.8, 0]} intensity={0.35} distance={4} color={C.glow} />
+    </group>
+  )
+}
+
+// ── Rooms ─────────────────────────────────────────────────────────────
+function KitchenRoom({ x, y }: { x: number; y: number }) {
   const steam = useRef<THREE.Group>(null)
   useFrame((s) => {
     if (steam.current) {
       steam.current.children.forEach((c, i) => {
         const t = (s.clock.elapsedTime * 0.5 + i * 0.4) % 1
-        c.position.y = 0.2 + t * 0.7
-        ;(c as THREE.Mesh).scale.setScalar(0.12 * (1 - t) + 0.04)
+        c.position.y = 0.2 + t * 0.6
+        ;(c as THREE.Mesh).scale.setScalar(0.1 * (1 - t) + 0.03)
         const m = (c as THREE.Mesh).material as THREE.MeshStandardMaterial
-        m.opacity = 0.5 * (1 - t)
+        m.opacity = 0.4 * (1 - t)
       })
     }
   })
   return (
     <group position={[x, y, BACK_Z + 0.6]}>
-      {/* counter */}
-      <RoundedBox args={[2.2, 0.9, 0.55]} radius={0.05} position={[0, 0.45, 0]}>
-        <meshStandardMaterial color={C.blush} />
+      {/* island base */}
+      <RoundedBox args={[2.1, 0.85, 0.6]} radius={0.04} position={[0, 0.43, 0]} castShadow>
+        <meshStandardMaterial color={C.wallSoft} roughness={0.85} />
       </RoundedBox>
-      {/* stove top */}
-      <mesh position={[-0.5, 0.92, 0]}><boxGeometry args={[0.7, 0.05, 0.5]} /><meshStandardMaterial color={C.ink} /></mesh>
-      {/* pot */}
-      <mesh position={[-0.5, 1.05, 0]}><cylinderGeometry args={[0.18, 0.16, 0.18, 20]} /><meshStandardMaterial color={C.lilacDeep} /></mesh>
-      {/* steam */}
-      <group ref={steam} position={[-0.5, 1.1, 0]}>
+      {/* marble countertop */}
+      <RoundedBox args={[2.2, 0.08, 0.66]} radius={0.02} position={[0, 0.89, 0]}>
+        <meshStandardMaterial color={C.marble} metalness={0.15} roughness={0.35} />
+      </RoundedBox>
+      {/* gold toe-kick */}
+      <mesh position={[0, 0.06, 0.28]}><boxGeometry args={[2.0, 0.05, 0.04]} /><Gold /></mesh>
+      {/* fruit bowl */}
+      <mesh position={[0.55, 0.96, 0]}><cylinderGeometry args={[0.16, 0.12, 0.1, 20]} /><Gold /></mesh>
+      <mesh position={[0.55, 1.04, 0]}><sphereGeometry args={[0.06, 14, 14]} /><meshStandardMaterial color={C.accent} /></mesh>
+      <mesh position={[0.45, 1.03, 0.04]}><sphereGeometry args={[0.05, 14, 14]} /><meshStandardMaterial color={C.green} /></mesh>
+      {/* pot + steam */}
+      <mesh position={[-0.5, 0.99, 0]}><cylinderGeometry args={[0.16, 0.14, 0.16, 20]} /><meshStandardMaterial color={C.ink} metalness={0.5} roughness={0.4} /></mesh>
+      <group ref={steam} position={[-0.5, 1.06, 0]}>
         {[0, 1, 2].map((i) => (
-          <mesh key={i}><sphereGeometry args={[0.1, 10, 10]} /><meshStandardMaterial color={'#ffffff'} transparent opacity={0.4} /></mesh>
+          <mesh key={i}><sphereGeometry args={[0.1, 10, 10]} /><meshStandardMaterial color={'#ffffff'} transparent opacity={0.35} /></mesh>
         ))}
       </group>
+      {/* pendants above island */}
+      <Pendant position={[-0.5, FLOOR_H - 0.2, 0]} />
+      <Pendant position={[0.5, FLOOR_H - 0.2, 0]} />
     </group>
   )
 }
 
-function Sunroom({ x, y }: { x: number; y: number }) {
-  const sun = useRef<THREE.Mesh>(null)
-  useFrame((s) => { if (sun.current) sun.current.position.y = 2.1 + Math.sin(s.clock.elapsedTime * 0.8) * 0.08 })
+function SunroomRoom({ x, y }: { x: number; y: number }) {
   return (
     <group position={[x, y, BACK_Z + 0.5]}>
-      {/* plant pot */}
-      <mesh position={[0.6, 0.3, 0.2]}><cylinderGeometry args={[0.22, 0.16, 0.4, 16]} /><meshStandardMaterial color={C.lilacDeep} /></mesh>
-      <mesh position={[0.6, 0.75, 0.2]}><sphereGeometry args={[0.35, 16, 16]} /><meshStandardMaterial color={C.sage} /></mesh>
-      {/* little sun */}
-      <mesh ref={sun} position={[-0.6, 2.1, 0]}><sphereGeometry args={[0.3, 24, 24]} /><meshStandardMaterial color={C.sun} emissive={C.sun} emissiveIntensity={0.6} /></mesh>
-      {/* armchair */}
-      <RoundedBox args={[0.8, 0.5, 0.7]} radius={0.12} position={[-0.4, 0.35, 0.4]}>
-        <meshStandardMaterial color={C.blush} />
+      {/* big warm window on back wall */}
+      <mesh position={[0, 1.5, -0.05]}><boxGeometry args={[1.6, 1.8, 0.02]} /><meshStandardMaterial color={C.glow} emissive={C.glow} emissiveIntensity={0.5} /></mesh>
+      <mesh position={[0, 1.5, 0.0]}><boxGeometry args={[1.66, 0.04, 0.03]} /><Gold /></mesh>
+      <mesh position={[0, 0.6, 0.0]}><boxGeometry args={[1.66, 0.04, 0.03]} /><Gold /></mesh>
+      <mesh position={[0, 1.5, 0.0]}><boxGeometry args={[0.04, 1.84, 0.03]} /><Gold /></mesh>
+      {/* lounge chair */}
+      <RoundedBox args={[0.9, 0.4, 0.8]} radius={0.1} position={[-0.4, 0.32, 0.5]} castShadow>
+        <meshStandardMaterial color={C.fabric} roughness={0.95} />
       </RoundedBox>
-      <RoundedBox args={[0.8, 0.6, 0.18]} radius={0.1} position={[-0.4, 0.7, 0.08]}>
-        <meshStandardMaterial color={C.blush} />
+      <RoundedBox args={[0.9, 0.7, 0.16]} radius={0.1} position={[-0.4, 0.62, 0.14]}>
+        <meshStandardMaterial color={C.fabric} roughness={0.95} />
       </RoundedBox>
+      {/* gold legs */}
+      <mesh position={[-0.75, 0.1, 0.8]}><cylinderGeometry args={[0.02, 0.02, 0.22, 8]} /><Gold /></mesh>
+      <mesh position={[-0.05, 0.1, 0.8]}><cylinderGeometry args={[0.02, 0.02, 0.22, 8]} /><Gold /></mesh>
+      {/* side table */}
+      <mesh position={[0.5, 0.45, 0.5]}><cylinderGeometry args={[0.22, 0.22, 0.04, 24]} /><meshStandardMaterial color={C.marble} metalness={0.15} roughness={0.35} /></mesh>
+      <mesh position={[0.5, 0.22, 0.5]}><cylinderGeometry args={[0.02, 0.02, 0.45, 8]} /><Gold /></mesh>
+      {/* plant */}
+      <FloorPlant position={[0.7, 0.05, -0.2]} />
     </group>
   )
 }
 
-// Hall: desk + clickable magazine + rug + pendant lamp
+function StudioRoom({ x, y }: { x: number; y: number }) {
+  return (
+    <group position={[x, y, BACK_Z + 0.6]}>
+      {/* desk top */}
+      <RoundedBox args={[1.6, 0.08, 0.66]} radius={0.02} position={[0, 0.78, 0]} castShadow>
+        <meshStandardMaterial color={C.marble} metalness={0.12} roughness={0.4} />
+      </RoundedBox>
+      {/* gold legs */}
+      <mesh position={[-0.7, 0.39, 0.25]}><boxGeometry args={[0.05, 0.78, 0.05]} /><Gold /></mesh>
+      <mesh position={[0.7, 0.39, 0.25]}><boxGeometry args={[0.05, 0.78, 0.05]} /><Gold /></mesh>
+      <mesh position={[-0.7, 0.39, -0.25]}><boxGeometry args={[0.05, 0.78, 0.05]} /><Gold /></mesh>
+      <mesh position={[0.7, 0.39, -0.25]}><boxGeometry args={[0.05, 0.78, 0.05]} /><Gold /></mesh>
+      {/* monitor */}
+      <RoundedBox args={[0.72, 0.44, 0.04]} radius={0.02} position={[0, 1.12, -0.1]}>
+        <meshStandardMaterial color={C.trimWhite} emissive={C.accent} emissiveIntensity={0.15} />
+      </RoundedBox>
+      <mesh position={[0, 0.86, -0.1]}><boxGeometry args={[0.1, 0.16, 0.1]} /><meshStandardMaterial color={C.ink} /></mesh>
+      {/* chair */}
+      <RoundedBox args={[0.5, 0.1, 0.5]} radius={0.06} position={[0, 0.45, 0.6]}><meshStandardMaterial color={C.fabric} roughness={0.95} /></RoundedBox>
+      <RoundedBox args={[0.5, 0.55, 0.1]} radius={0.06} position={[0, 0.72, 0.84]}><meshStandardMaterial color={C.fabric} roughness={0.95} /></RoundedBox>
+      {/* wall art + shelf (against back wall, local z ≈ -0.55) */}
+      <FramedArt position={[-0.85, 1.7, -0.55]} />
+      <mesh position={[0.8, 1.55, -0.5]}><boxGeometry args={[0.9, 0.05, 0.22]} /><meshStandardMaterial color={C.wallSoft} /></mesh>
+      <mesh position={[0.55, 1.7, -0.5]}><boxGeometry args={[0.12, 0.24, 0.12]} /><meshStandardMaterial color={C.accent} /></mesh>
+      <mesh position={[0.8, 1.66, -0.5]}><sphereGeometry args={[0.1, 16, 16]} /><Gold /></mesh>
+      <mesh position={[1.05, 1.68, -0.5]}><boxGeometry args={[0.1, 0.2, 0.1]} /><meshStandardMaterial color={C.green} /></mesh>
+    </group>
+  )
+}
+
+// Upper-floor decorative niche (flanks the studio): pedestal + sculpture or plant
+function Niche({ x, y, kind }: { x: number; y: number; kind: 'art' | 'plant' }) {
+  return (
+    <group position={[x, y, BACK_Z + 0.5]}>
+      {kind === 'art' ? (
+        <FramedArt position={[0, 1.6, -0.02]} />
+      ) : (
+        <>
+          <mesh position={[0, 0.5, 0]} castShadow><boxGeometry args={[0.4, 1.0, 0.4]} /><meshStandardMaterial color={C.trimWhite} roughness={0.6} /></mesh>
+          <Vase position={[0, 1.0, 0]} />
+        </>
+      )}
+    </group>
+  )
+}
+
+// Hall: console + clickable magazine + round mirror + pendant + runner
 function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
-  const lamp = useRef<THREE.Group>(null)
   const mag = useRef<THREE.Group>(null)
-  useFrame((s) => {
-    if (lamp.current) lamp.current.rotation.z = Math.sin(s.clock.elapsedTime * 0.9) * 0.06
-    if (mag.current) mag.current.position.y = 0.92 + Math.sin(s.clock.elapsedTime * 1.4) * 0.015
-  })
+  useFrame((s) => { if (mag.current) mag.current.position.y = 0.92 + Math.sin(s.clock.elapsedTime * 1.3) * 0.012 })
   const x = X.mid
   const y = GROUND_Y
   return (
     <group>
-      {/* rug */}
-      <mesh position={[x, y + 0.11, 0.6]} rotation={[-Math.PI / 2, 0, 0]}>
-        <circleGeometry args={[1.0, 32]} />
-        <meshStandardMaterial color={C.lilac} />
+      {/* runner rug */}
+      <mesh position={[x, y + 0.11, 0.7]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[1.2, 2.0]} />
+        <meshStandardMaterial color={C.fabric} roughness={1} />
       </mesh>
-      {/* desk */}
-      <group position={[x, y, BACK_Z + 0.7]}>
-        <RoundedBox args={[1.5, 0.12, 0.7]} radius={0.04} position={[0, 0.82, 0]}>
-          <meshStandardMaterial color={'#e7d7c9'} />
+      {/* round mirror with gold ring */}
+      <mesh position={[x, y + 1.9, BACK_Z + 0.07]}><torusGeometry args={[0.42, 0.04, 16, 48]} /><Gold /></mesh>
+      <mesh position={[x, y + 1.9, BACK_Z + 0.06]}><circleGeometry args={[0.4, 48]} /><meshStandardMaterial color={C.wallSoft} metalness={0.3} roughness={0.2} /></mesh>
+      {/* console table */}
+      <group position={[x, y, BACK_Z + 0.55]}>
+        <RoundedBox args={[1.5, 0.07, 0.5]} radius={0.02} position={[0, 0.82, 0]} castShadow>
+          <meshStandardMaterial color={C.marble} metalness={0.15} roughness={0.35} />
         </RoundedBox>
-        <mesh position={[-0.6, 0.4, 0]}><boxGeometry args={[0.1, 0.82, 0.1]} /><meshStandardMaterial color={C.ink} /></mesh>
-        <mesh position={[0.6, 0.4, 0]}><boxGeometry args={[0.1, 0.82, 0.1]} /><meshStandardMaterial color={C.ink} /></mesh>
+        <mesh position={[-0.65, 0.41, 0.18]}><cylinderGeometry args={[0.025, 0.025, 0.82, 8]} /><Gold /></mesh>
+        <mesh position={[0.65, 0.41, 0.18]}><cylinderGeometry args={[0.025, 0.025, 0.82, 8]} /><Gold /></mesh>
+        <mesh position={[-0.65, 0.41, -0.18]}><cylinderGeometry args={[0.025, 0.025, 0.82, 8]} /><Gold /></mesh>
+        <mesh position={[0.65, 0.41, -0.18]}><cylinderGeometry args={[0.025, 0.025, 0.82, 8]} /><Gold /></mesh>
+        {/* a slim vase on the console */}
+        <Vase position={[0.5, 0.85, 0]} />
         {/* clickable magazine */}
         <group
           ref={mag}
-          position={[0, 0.92, 0.05]}
+          position={[-0.15, 0.92, 0.02]}
           onPointerDown={(e: ThreeEvent<PointerEvent>) => { e.stopPropagation(); onOpenAbout() }}
           onPointerOver={(e) => { e.stopPropagation(); cursor(true) }}
           onPointerOut={() => cursor(false)}
         >
-          <RoundedBox args={[0.55, 0.04, 0.72]} radius={0.02}>
-            <meshStandardMaterial color={C.blush} />
+          <RoundedBox args={[0.5, 0.03, 0.66]} radius={0.015}>
+            <meshStandardMaterial color={C.trimWhite} roughness={0.5} />
           </RoundedBox>
-          <Text position={[0, 0.03, 0.02]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.08} color={C.lilacDeep} anchorX="center" anchorY="middle" maxWidth={0.5} textAlign="center">
+          <mesh position={[0, 0.018, 0.18]}><boxGeometry args={[0.42, 0.005, 0.12]} /><meshStandardMaterial color={C.accent} /></mesh>
+          <Text position={[0, 0.022, -0.05]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.06} color={C.ink} anchorX="center" anchorY="middle" maxWidth={0.42} textAlign="center" letterSpacing={0.04}>
             ABOUT THE OWNER
           </Text>
         </group>
       </group>
       {/* pendant lamp */}
-      <group ref={lamp} position={[x, GROUND_Y + FLOOR_H, 0.6]}>
-        <mesh position={[0, -0.4, 0]}><cylinderGeometry args={[0.012, 0.012, 0.8, 8]} /><meshStandardMaterial color={C.ink} /></mesh>
-        <mesh position={[0, -0.85, 0]}><coneGeometry args={[0.22, 0.3, 24, 1, true]} /><meshStandardMaterial color={C.sun} side={THREE.DoubleSide} emissive={C.sun} emissiveIntensity={0.4} /></mesh>
-      </group>
+      <Pendant position={[x, GROUND_Y + FLOOR_H - 0.15, 0.5]} swing />
     </group>
   )
 }
@@ -236,17 +330,17 @@ function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
 function Roof() {
   return (
     <group>
-      <mesh position={[0, 6.2 + 0.7, 0]} rotation={[0, 0, 0]}>
-        <cylinderGeometry args={[0.001, 0.001, 0.001]} />
-        <meshStandardMaterial color={C.lilac} />
+      <mesh position={[0, 6.6, 0]}>
+        <coneGeometry args={[6.6, 1.7, 4]} />
+        <meshStandardMaterial color={C.wall} roughness={0.95} />
       </mesh>
-      {/* triangular roof via extruded shape approximation: two slanted boxes */}
-      <mesh position={[0, 6.9, 0]} rotation={[0, 0, 0]}>
-        <coneGeometry args={[6.4, 1.8, 4]} />
-        <meshStandardMaterial color={C.lilacDeep} />
+      {/* gold ridge ring */}
+      <mesh position={[0, 5.85, 0]}>
+        <boxGeometry args={[6.4, 0.06, 0.06]} />
+        <Gold />
       </mesh>
-      <Text position={[0, 6.7, FRONT_Z + 0.2]} fontSize={0.4} color={C.cream} anchorX="center" anchorY="middle">
-        AnushkaLand
+      <Text position={[0, 6.45, FRONT_Z + 0.2]} fontSize={0.38} color={C.gold} anchorX="center" anchorY="middle" letterSpacing={0.12}>
+        ANUSHKALAND
       </Text>
     </group>
   )
@@ -267,11 +361,10 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
     }
   })
   const wallMat = (i: number) => (
-    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.cream} transparent opacity={1} />
+    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.wall} roughness={0.95} transparent opacity={1} />
   )
   return (
     <group ref={grp}>
-      {/* big front wall covering whole house with a door hole in center-ground */}
       {/* left column */}
       <mesh position={[X.left, 3.1, FRONT_Z]}>
         <boxGeometry args={[BAY_W, 6.2, 0.1]} />
@@ -287,11 +380,14 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
         <boxGeometry args={[BAY_W, 3.0, 0.1]} />
         {wallMat(2)}
       </mesh>
-      {/* windows hint on facade */}
-      <mesh position={[X.left, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[5]=r as THREE.MeshStandardMaterial}} color={C.blush} transparent opacity={1} /></mesh>
-      <mesh position={[X.right, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[6]=r as THREE.MeshStandardMaterial}} color={C.blush} transparent opacity={1} /></mesh>
+      {/* window hints on facade */}
+      <mesh position={[X.left, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[5]=r as THREE.MeshStandardMaterial}} color={C.glow} emissive={C.glow} emissiveIntensity={0.2} transparent opacity={1} /></mesh>
+      <mesh position={[X.right, 4.6, FRONT_Z + 0.06]}><boxGeometry args={[1.1, 1.1, 0.04]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[6]=r as THREE.MeshStandardMaterial}} color={C.glow} emissive={C.glow} emissiveIntensity={0.2} transparent opacity={1} /></mesh>
+      {/* gold window frames */}
+      <mesh position={[X.left, 4.6, FRONT_Z + 0.09]}><boxGeometry args={[1.16, 0.04, 0.02]} /><Gold transparent opacity={1} /></mesh>
+      <mesh position={[X.right, 4.6, FRONT_Z + 0.09]}><boxGeometry args={[1.16, 0.04, 0.02]} /><Gold transparent opacity={1} /></mesh>
       {/* door frame */}
-      <mesh position={[X.mid, 1.4, FRONT_Z + 0.02]}><boxGeometry args={[1.5, 2.7, 0.06]} /><meshStandardMaterial ref={(r)=>{if(r)matRefs.current[3]=r as THREE.MeshStandardMaterial}} color={C.lilac} transparent opacity={1} /></mesh>
+      <mesh position={[X.mid, 1.4, FRONT_Z + 0.02]}><boxGeometry args={[1.5, 2.7, 0.06]} /><Gold transparent opacity={1} /></mesh>
       {/* door (swings) */}
       <group ref={door} position={[X.mid - 0.6, 1.35, FRONT_Z + 0.05]}>
         <mesh
@@ -301,12 +397,12 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
           onPointerOut={() => cursor(false)}
         >
           <boxGeometry args={[1.2, 2.4, 0.08]} />
-          <meshStandardMaterial ref={(r)=>{if(r)matRefs.current[4]=r as THREE.MeshStandardMaterial}} color={C.lilacDeep} transparent opacity={1} />
+          <meshStandardMaterial ref={(r)=>{if(r)matRefs.current[4]=r as THREE.MeshStandardMaterial}} color={C.accent} roughness={0.5} transparent opacity={1} />
         </mesh>
-        <mesh position={[1.05, 0, 0.08]}><sphereGeometry args={[0.06, 16, 16]} /><meshStandardMaterial color={C.sun} /></mesh>
+        <mesh position={[1.05, 0, 0.08]}><sphereGeometry args={[0.05, 16, 16]} /><Gold /></mesh>
       </group>
       {/* welcome mat text */}
-      <Text position={[X.mid, 0.15, FRONT_Z + 1.0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.18} color={C.ink} anchorX="center" anchorY="middle">
+      <Text position={[X.mid, 0.15, FRONT_Z + 1.0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.16} color={C.ink} anchorX="center" anchorY="middle" letterSpacing={0.06}>
         {entered ? '' : 'click the door ↑'}
       </Text>
     </group>
@@ -321,7 +417,6 @@ function CameraRig({ view }: { view: ViewId }) {
     const wp = CAMERA[view]
     camera.position.lerp(new THREE.Vector3(...wp.pos), 0.055)
     tgt.current.lerp(new THREE.Vector3(...wp.tgt), 0.055)
-    // subtle idle breathing on the look target
     look.current.lerp(tgt.current, 0.2)
     camera.lookAt(look.current)
   })
@@ -344,50 +439,43 @@ export default function House({
   return (
     <>
       <CameraRig view={view} />
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[6, 10, 8]} intensity={0.8} />
-      <pointLight position={[0, 4, 6]} intensity={0.4} color={C.lilac} />
+      <ambientLight intensity={0.55} color={'#fff3e6'} />
+      <directionalLight position={[6, 11, 8]} intensity={1.0} color={'#fff4e6'} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
+      <directionalLight position={[-6, 6, 4]} intensity={0.3} color={'#efe6ff'} />
 
       {/* ground */}
       <mesh position={[0, -0.05, 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[16, 48]} />
-        <meshStandardMaterial color={C.sage} />
+        <meshStandardMaterial color={C.wallSoft} roughness={1} />
       </mesh>
 
-      {/* room shells */}
-      <Shell x={X.left} y={UPPER_Y} color={C.lilac} />   {/* library */}
-      <Shell x={X.right} y={UPPER_Y} color={C.sage} />   {/* studio */}
-      <Shell x={X.left} y={GROUND_Y} color={C.blush} />  {/* kitchen */}
-      <Shell x={X.right} y={GROUND_Y} color={C.sun} />   {/* sunroom */}
-      <Shell x={X.mid} y={GROUND_Y} color={C.cream} />   {/* hall */}
-      <Shell x={X.mid} y={UPPER_Y} color={C.blush} />    {/* decor */}
+      {/* room shells — ground: kitchen | hall | sunroom ; upper: niche | studio | niche */}
+      <Shell x={X.left} y={GROUND_Y} />
+      <Shell x={X.mid} y={GROUND_Y} />
+      <Shell x={X.right} y={GROUND_Y} />
+      <Shell x={X.left} y={UPPER_Y} />
+      <Shell x={X.mid} y={UPPER_Y} />
+      <Shell x={X.right} y={UPPER_Y} />
 
       {/* labels */}
-      <RoomLabel x={X.left} y={UPPER_Y} text="The Library" />
-      <RoomLabel x={X.right} y={UPPER_Y} text="The Studio" />
-      <RoomLabel x={X.left} y={GROUND_Y} text="The Kitchen" />
-      <RoomLabel x={X.right} y={GROUND_Y} text="The Sunroom" />
-
-      {/* decor center upper: heart window */}
-      <mesh position={[X.mid, UPPER_Y + 1.5, BACK_Z + 0.1]}>
-        <circleGeometry args={[0.5, 32]} />
-        <meshStandardMaterial color={C.lilacDeep} />
-      </mesh>
+      <RoomLabel x={X.left} y={GROUND_Y} text="KITCHEN" />
+      <RoomLabel x={X.right} y={GROUND_Y} text="SUNROOM" />
+      <RoomLabel x={X.mid} y={UPPER_Y} text="STUDIO" />
 
       {/* furniture */}
-      <Bookshelf x={X.left} y={UPPER_Y} />
-      <Desk x={X.right} y={UPPER_Y} />
-      <Kitchen x={X.left} y={GROUND_Y} />
-      <Sunroom x={X.right} y={GROUND_Y} />
+      <KitchenRoom x={X.left} y={GROUND_Y} />
+      <SunroomRoom x={X.right} y={GROUND_Y} />
+      <StudioRoom x={X.mid} y={UPPER_Y} />
+      <Niche x={X.left} y={UPPER_Y} kind="plant" />
+      <Niche x={X.right} y={UPPER_Y} kind="art" />
       <Hall onOpenAbout={onOpenAbout} />
 
       {/* room hit zones (only active after entering) */}
       {entered && (
         <>
-          <RoomHit x={X.left} y={UPPER_Y} active={view === 'library'} onClick={() => onSelectRoom('library')} />
-          <RoomHit x={X.right} y={UPPER_Y} active={view === 'studio'} onClick={() => onSelectRoom('studio')} />
           <RoomHit x={X.left} y={GROUND_Y} active={view === 'kitchen'} onClick={() => onSelectRoom('kitchen')} />
           <RoomHit x={X.right} y={GROUND_Y} active={view === 'sunroom'} onClick={() => onSelectRoom('sunroom')} />
+          <RoomHit x={X.mid} y={UPPER_Y} active={view === 'studio'} onClick={() => onSelectRoom('studio')} />
         </>
       )}
 
