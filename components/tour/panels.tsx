@@ -1,11 +1,6 @@
 'use client'
-import { profile, experiences, projects, achievements, hobbies, shelf } from '@/lib/content'
-
-const QUOTES = [
-  { body: 'The ones who are crazy enough to think they can change the world, are the ones who do.', author: 'Steve Jobs', font: 'font-display italic' },
-  { body: 'There’s more to life than increasing its speed.', author: 'Mahatma Gandhi', font: 'font-display italic' },
-  { body: 'सीरियस HOKE क्या MILA', author: 'A reminder, mostly to myself', font: 'font-deva italic' },
-]
+import { profile, about, personalFav, experiences, projects, achievements, hobbies } from '@/lib/content'
+import MovieReccos from '@/components/MovieReccos'
 
 export function AboutPanel() {
   return (
@@ -13,36 +8,26 @@ export function AboutPanel() {
       <div>
         <div className="eyebrow">about the owner</div>
         <h3 className="font-display text-3xl leading-tight text-ink md:text-4xl">{profile.name}</h3>
-        <p className="mt-1 text-sm font-semibold text-lilacDeep">{profile.title}</p>
       </div>
-      <p className="text-[15px] leading-relaxed text-ink/75">{profile.long.playful}</p>
-      <div className="rounded-2xl bg-blush/70 p-4 ring-1 ring-ink/5">
-        <div className="text-sm font-semibold text-ink">{profile.education}</div>
-        <div className="mt-1 text-xs italic text-ink/55">{profile.eduNote}</div>
-      </div>
-    </div>
-  )
-}
 
-export function LibraryPanel() {
-  return (
-    <div className="space-y-5">
-      <div className="grid gap-3">
-        {QUOTES.map((q) => (
-          <figure key={q.author} className="rounded-2xl border border-ink/10 bg-white/80 p-4 shadow-soft">
-            <blockquote className={`${q.font} text-lg leading-snug text-ink`}>“{q.body}”</blockquote>
-            <figcaption className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/50">— {q.author}</figcaption>
-          </figure>
+      <p className="text-[15px] leading-relaxed text-ink/75">{about.intro}</p>
+
+      <div className="flex flex-wrap gap-2">
+        {about.roles.map((r) => (
+          <span key={r} className="rounded-full bg-lilac/25 px-3 py-1 text-xs font-semibold text-lilacDeep ring-1 ring-lilacDeep/15">
+            {r}
+          </span>
         ))}
       </div>
-      <div>
-        <div className="eyebrow mb-2">on the shelf</div>
-        <div className="flex flex-wrap gap-2">
-          {shelf.map((s) => (
-            <span key={s} className="rounded-full bg-lilac/30 px-3 py-1 text-xs font-medium text-ink/70 ring-1 ring-ink/5">{s}</span>
-          ))}
-        </div>
-      </div>
+
+      <p className="text-[15px] leading-relaxed text-ink/75">
+        {about.autonomyPre}
+        <em className="font-semibold italic text-lilacDeep">{about.autonomyWord}</em>
+        {about.autonomyPost}
+      </p>
+
+      <p className="text-[15px] leading-relaxed text-ink/75">{about.movie}</p>
+      <MovieReccos />
     </div>
   )
 }
@@ -50,6 +35,9 @@ export function LibraryPanel() {
 export function KitchenPanel() {
   return (
     <div className="space-y-4">
+      <h2 className="font-display text-3xl leading-tight text-ink md:text-4xl">
+        What I’ve <em className="font-bold italic text-lilacDeep">cooked</em>
+      </h2>
       {projects.map((p) => (
         <div key={p.name} className="rounded-2xl border border-ink/10 bg-white/85 p-4 shadow-soft">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -76,6 +64,7 @@ export function KitchenPanel() {
 export function StudioPanel() {
   return (
     <div className="space-y-4">
+      <h2 className="font-display text-3xl leading-tight text-ink md:text-4xl">The Studio</h2>
       {experiences.map((e) => (
         <div key={e.role + e.company} className={`rounded-2xl border border-ink/10 ${e.color} p-4 shadow-soft`}>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -97,6 +86,17 @@ export function StudioPanel() {
 export function SunroomPanel() {
   return (
     <div className="space-y-5">
+      <h2 className="font-display text-3xl leading-tight text-ink md:text-4xl">The Sunroom</h2>
+
+      {/* Personal favourite — highlighted */}
+      <div className="rounded-2xl border border-lilacDeep/20 bg-lilac/15 p-4 shadow-soft">
+        <div className="mb-1 flex items-center gap-2">
+          <span className="text-base">⭐</span>
+          <span className="text-xs font-bold uppercase tracking-[0.16em] text-lilacDeep">{personalFav.label}</span>
+        </div>
+        <p className="text-[15px] leading-relaxed text-ink/80">{personalFav.body}</p>
+      </div>
+
       <div className="grid gap-3 sm:grid-cols-2">
         {hobbies.map((h) => (
           <div key={h.label} className="flex items-start gap-3 rounded-2xl border border-ink/10 bg-white/85 p-3 shadow-soft">
@@ -108,6 +108,7 @@ export function SunroomPanel() {
           </div>
         ))}
       </div>
+
       <div>
         <div className="eyebrow mb-2">a few medals, modestly displayed</div>
         <ul className="space-y-1.5">
@@ -141,7 +142,6 @@ export function FarewellPanel() {
 }
 
 export const PANELS = {
-  library: LibraryPanel,
   kitchen: KitchenPanel,
   studio: StudioPanel,
   sunroom: SunroomPanel,
