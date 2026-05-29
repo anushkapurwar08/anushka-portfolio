@@ -101,10 +101,7 @@ function Dollhouse() {
           />
         </g>
       </svg>
-      <div className="absolute -right-3 top-6 -rotate-6 rounded-xl bg-lilac/80 px-3 py-1.5 text-[11px] font-bold text-ink shadow-soft">
-        Now hiring me
-      </div>
-      <div className="absolute -left-3 bottom-12 rotate-3 rounded-xl bg-blush px-3 py-1.5 text-[11px] font-bold text-ink shadow-soft">
+      <div className="absolute -left-3 bottom-12 rotate-3 rounded-xl bg-blush px-4 py-2 text-base font-bold text-ink shadow-soft">
         BITS Pilani · ’27
       </div>
     </motion.div>
