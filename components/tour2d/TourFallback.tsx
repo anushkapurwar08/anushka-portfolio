@@ -6,14 +6,14 @@ import { profile } from '@/lib/content'
 import { PANELS, AboutPanel, FarewellPanel } from '@/components/tour/panels'
 
 const NAME: Record<ViewId, string> = {
-  exterior: 'AnushkaLand', hall: 'The Entrance Hall', library: 'The Library',
+  exterior: 'AnushkaLand', hall: 'The Entrance Hall',
   kitchen: 'The Kitchen', studio: 'The Studio', sunroom: 'The Sunroom', farewell: 'See you soon',
 }
 
 // Lightweight 2D dollhouse map (same rooms, fast on phones)
 function HouseMap({ view, onPick, onAbout }: { view: ViewId; onPick: (id: RoomId | 'hall') => void; onAbout: () => void }) {
-  const cell = (id: RoomId, label: string, emoji: string, color: string) => (
-    <button onClick={() => onPick(id)} className={`relative flex flex-col items-center justify-center gap-1 rounded-2xl border-2 p-4 transition ${view === id ? 'border-lilacDeep scale-[1.02]' : 'border-ink/10 hover:border-lilac'}`} style={{ background: color }}>
+  const cell = (id: RoomId, label: string, emoji: string) => (
+    <button onClick={() => onPick(id)} className={`relative flex flex-col items-center justify-center gap-1 rounded-2xl border-2 bg-[#F1ECE4] p-4 transition ${view === id ? 'border-lilacDeep scale-[1.02]' : 'border-ink/10 hover:border-lilac'}`}>
       <span className="text-2xl">{emoji}</span>
       <span className="text-xs font-semibold text-ink/80">{label}</span>
     </button>
@@ -21,18 +21,19 @@ function HouseMap({ view, onPick, onAbout }: { view: ViewId; onPick: (id: RoomId
   return (
     <div className="mx-auto w-full max-w-sm">
       {/* roof */}
-      <div className="mx-auto h-0 w-0 border-x-[120px] border-b-[44px] border-x-transparent border-b-lilacDeep" />
-      <div className="overflow-hidden rounded-2xl border-2 border-ink/10 bg-cream p-2 shadow-soft">
-        <div className="grid grid-cols-2 gap-2">
-          {cell('library', 'Library', '📚', '#E9D5FB')}
-          {cell('studio', 'Studio', '🛠️', '#DCE9D2')}
-          {cell('kitchen', 'Kitchen', '🍳', '#F8E8EE')}
-          {cell('sunroom', 'Sunroom', '🌿', '#FDEFC2')}
+      <div className="mx-auto h-0 w-0 border-x-[120px] border-b-[44px] border-x-transparent border-b-[#DCD4C7]" />
+      <div className="overflow-hidden rounded-2xl border-2 border-ink/10 bg-[#FBF8F2] p-2 shadow-soft">
+        {/* upstairs: studio */}
+        {cell('studio', 'Studio', '🖋️')}
+        {/* downstairs: kitchen | sunroom */}
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {cell('kitchen', 'Kitchen', '🍳')}
+          {cell('sunroom', 'Sunroom', '🌿')}
         </div>
         {/* hall + about strip */}
         <div className="mt-2 grid grid-cols-2 gap-2">
-          <button onClick={() => onPick('hall')} className={`rounded-2xl border-2 p-3 text-xs font-semibold text-ink/80 transition ${view === 'hall' ? 'border-lilacDeep' : 'border-ink/10 hover:border-lilac'}`} style={{ background: '#FFF8F0' }}>🏠 Hall</button>
-          <button onClick={onAbout} className="rounded-2xl border-2 border-ink/10 bg-lilac/30 p-3 text-xs font-semibold text-ink/80 transition hover:border-lilac">📖 About the owner</button>
+          <button onClick={() => onPick('hall')} className={`rounded-2xl border-2 bg-[#F1ECE4] p-3 text-xs font-semibold text-ink/80 transition ${view === 'hall' ? 'border-lilacDeep' : 'border-ink/10 hover:border-lilac'}`}>🏠 Hall</button>
+          <button onClick={onAbout} className="rounded-2xl border-2 border-lilacDeep/20 bg-lilac/20 p-3 text-xs font-semibold text-lilacDeep transition hover:border-lilac">📖 About the owner</button>
         </div>
       </div>
     </div>
@@ -44,7 +45,7 @@ export default function TourFallback({ onExit }: { onExit: () => void }) {
   const [aboutOpen, setAboutOpen] = useState(false)
   useEffect(() => { document.body.style.overflow = 'auto'; window.scrollTo(0, 0) }, [])
 
-  const isRoom = (['library', 'kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)
+  const isRoom = (['kitchen', 'studio', 'sunroom'] as ViewId[]).includes(view)
   const Panel = isRoom ? PANELS[view as RoomId] : null
 
   return (
@@ -68,8 +69,6 @@ export default function TourFallback({ onExit }: { onExit: () => void }) {
           {isRoom && Panel && (
             <motion.div key={view} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}
               className="rounded-3xl border border-ink/10 bg-white/85 p-5 shadow-soft">
-              <div className="eyebrow">{ROOMS.find((r) => r.id === view)?.subtitle}</div>
-              <h2 className="h-section mb-4 mt-1">{NAME[view]}</h2>
               <Panel />
             </motion.div>
           )}
