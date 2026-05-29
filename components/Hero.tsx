@@ -20,9 +20,9 @@ export default function Hero() {
             transition={{ delay: 0.1, duration: 0.7 }}
             className="h-display"
           >
-            This is <span className="inline-block animate-pulse">👋</span>
+            Hi <span className="inline-block animate-pulse">👋</span>
             <br />
-            <span className="text-lilacDeep">{profile.name}</span>
+            This is <span className="text-lilacDeep">{profile.name}</span>
             <span className="ml-1 align-top text-3xl text-lilac">.</span>
           </motion.h1>
 
