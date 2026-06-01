@@ -5,7 +5,7 @@ import { Text, RoundedBox } from '@react-three/drei'
 import * as THREE from 'three'
 import type { RoomId, ViewId } from '@/lib/tour'
 
-// ── Soft-luxe palette — light, cohesive, pastel colour-blocking ─────────
+// ── Soft-luxe palette - light, cohesive, pastel colour-blocking ─────────
 const C = {
   // per-room accent walls (all same softness so they read as a set)
   wallBlush: '#FBEDF0',  // kitchen
@@ -20,12 +20,12 @@ const C = {
   lilac: '#D8B4F8',
   lilacDeep: '#8B5CC0',
   blush: '#F4B8C8',
-  rose: '#E07AA0',       // deeper pink — used where something must pop
+  rose: '#E07AA0',       // deeper pink - used where something must pop
   sage: '#9DBE93',
   mustard: '#E7C46A',
   sky: '#BFD7EA',
   glow: '#FFE9C2',
-  // exterior — matches the homepage dollhouse
+  // exterior - matches the homepage dollhouse
   roof: '#D8B4F8',
   roofDark: '#B893E8',
   cream: '#FFF8F0',
@@ -112,7 +112,7 @@ function FloorPlant({ position }: { position: [number, number, number] }) {
   )
 }
 
-// Framed wall art — colour is configurable so the rooms feel curated
+// Framed wall art - colour is configurable so the rooms feel curated
 function FramedArt({ position, color = C.lilac, w = 0.72, h = 0.92 }: { position: [number, number, number]; color?: string; w?: number; h?: number }) {
   return (
     <group position={position}>
@@ -280,7 +280,7 @@ function KitchenRoom({ x, y }: { x: number; y: number }) {
 function SunroomRoom({ x, y }: { x: number; y: number }) {
   return (
     <group position={[x, y, BACK_Z + 0.5]}>
-      {/* warm window — lowered & smaller so the SUNROOM label sits clearly above it */}
+      {/* warm window - lowered & smaller so the SUNROOM label sits clearly above it */}
       <mesh position={[0, 1.18, -0.05]}><boxGeometry args={[1.5, 1.5, 0.02]} /><meshStandardMaterial color={C.glow} emissive={C.glow} emissiveIntensity={0.55} /></mesh>
       {/* frame */}
       <mesh position={[0, 1.93, 0.0]}><boxGeometry args={[1.56, 0.04, 0.03]} /><Gold /></mesh>
@@ -364,7 +364,7 @@ function StudioRoom({ x, y }: { x: number; y: number }) {
       <RoundedBox args={[0.5, 0.1, 0.5]} radius={0.06} position={[0, 0.45, 0.6]}><meshStandardMaterial color={C.lilac} roughness={0.95} /></RoundedBox>
       <RoundedBox args={[0.5, 0.55, 0.1]} radius={0.06} position={[0, 0.72, 0.84]}><meshStandardMaterial color={C.lilac} roughness={0.95} /></RoundedBox>
 
-      {/* gallery wall — three framed prints in different colours */}
+      {/* gallery wall - three framed prints in different colours */}
       <FramedArt position={[-0.92, 1.78, -0.55]} color={C.rose} w={0.6} h={0.78} />
       <FramedArt position={[-0.18, 1.9, -0.55]} color={C.lilac} w={0.5} h={0.6} />
       <FramedArt position={[-0.2, 1.3, -0.55]} color={C.mustard} w={0.5} h={0.5} />
@@ -406,7 +406,7 @@ function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
   const y = GROUND_Y
   return (
     <group>
-      {/* layered runner rug — lilac base + blush inset */}
+      {/* layered runner rug - lilac base + blush inset */}
       <mesh position={[x, y + 0.11, 0.7]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[1.3, 2.1]} />
         <meshStandardMaterial color={C.wallLilac} roughness={1} />
@@ -462,7 +462,7 @@ function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
   )
 }
 
-// Roof — soft purple, matching the homepage dollhouse
+// Roof - soft purple, matching the homepage dollhouse
 function Roof() {
   return (
     <group>
@@ -479,7 +479,7 @@ function Roof() {
   )
 }
 
-// Facade (front wall) — fades out / door swings when entered
+// Facade (front wall) - fades out / door swings when entered
 function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () => void }) {
   const grp = useRef<THREE.Group>(null)
   const door = useRef<THREE.Group>(null)
@@ -530,7 +530,7 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
           <mesh position={[0, 0, 0.06]}><boxGeometry args={[1.04, 0.05, 0.02]} /><meshStandardMaterial color={C.ink} /></mesh>
         </group>
       ))}
-      {/* heart above the door — deep rose so it actually reads against the cream wall */}
+      {/* heart above the door - deep rose so it actually reads against the cream wall */}
       <group position={[X.mid, 3.05, FRONT_Z + 0.06]}>
         <mesh position={[-0.16, 0.09, 0]}><circleGeometry args={[0.17, 24]} /><meshStandardMaterial color={C.rose} side={THREE.DoubleSide} /></mesh>
         <mesh position={[0.16, 0.09, 0]}><circleGeometry args={[0.17, 24]} /><meshStandardMaterial color={C.rose} side={THREE.DoubleSide} /></mesh>
@@ -538,7 +538,7 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
       </group>
       {/* dark door frame */}
       <mesh position={[X.mid, 1.4, FRONT_Z + 0.02]}><boxGeometry args={[1.5, 2.7, 0.06]} /><meshStandardMaterial color={C.ink} roughness={0.7} /></mesh>
-      {/* door (swings) — soft purple */}
+      {/* door (swings) - soft purple */}
       <group ref={door} position={[X.mid - 0.6, 1.35, FRONT_Z + 0.05]}>
         <mesh
           position={[0.6, 0, 0]}
@@ -596,13 +596,13 @@ export default function House({
       <directionalLight position={[6, 11, 8]} intensity={1.0} color={'#fff4e6'} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
       <directionalLight position={[-6, 6, 4]} intensity={0.35} color={'#efe6ff'} />
 
-      {/* ground — soft lilac pad that blends into the page gradient */}
+      {/* ground - soft lilac pad that blends into the page gradient */}
       <mesh position={[0, -0.05, 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <circleGeometry args={[18, 64]} />
         <meshStandardMaterial color={C.ground} roughness={1} />
       </mesh>
 
-      {/* room shells — ground: kitchen | hall | sunroom ; upper: niche | studio | niche */}
+      {/* room shells - ground: kitchen | hall | sunroom ; upper: niche | studio | niche */}
       <Shell x={X.left} y={GROUND_Y} wall={C.wallBlush} />
       <Shell x={X.mid} y={GROUND_Y} wall={C.wallHall} />
       <Shell x={X.right} y={GROUND_Y} wall={C.wallSage} />

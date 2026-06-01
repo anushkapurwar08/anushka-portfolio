@@ -63,7 +63,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
         </Canvas>
       </div>
 
-      {/* Tour progress bar — lingers from the homepage until the tour is complete */}
+      {/* Tour progress bar - lingers from the homepage until the tour is complete */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-1 bg-lilac/25">
         <div className="h-full bg-lilacDeep transition-all duration-700 ease-out" style={{ width: `${tourPct}%` }} />
       </div>
@@ -106,7 +106,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
             className="pointer-events-none absolute inset-x-0 bottom-28 flex justify-center px-4"
           >
             <div className="pointer-events-auto max-w-sm rounded-2xl bg-white/80 px-5 py-4 text-center shadow-soft backdrop-blur">
-              <p className="text-sm text-ink/75">You’re in the hall. Open the <span className="font-semibold text-lilacDeep">magazine on the desk</span> to meet the owner — or pick a room below.</p>
+              <p className="text-sm text-ink/75">You’re in the hall. Open the <span className="font-semibold text-lilacDeep">magazine on the desk</span> to meet the owner - or pick a room below.</p>
               <button onClick={() => setAboutOpen(true)} className="mt-3 rounded-full bg-blush px-4 py-2 text-xs font-semibold text-ink transition hover:bg-lilac/50">📖 About the owner</button>
             </div>
           </motion.div>
