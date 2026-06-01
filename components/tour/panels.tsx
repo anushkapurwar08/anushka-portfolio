@@ -88,7 +88,7 @@ export function SunroomPanel() {
     <div className="space-y-5">
       <h2 className="font-display text-3xl leading-tight text-ink md:text-4xl">The Sunroom</h2>
 
-      {/* Personal favourite — highlighted */}
+      {/* Personal favourite - highlighted */}
       <div className="rounded-2xl border border-lilacDeep/20 bg-lilac/15 p-4 shadow-soft">
         <div className="mb-1 flex items-center gap-2">
           <span className="text-base">⭐</span>
