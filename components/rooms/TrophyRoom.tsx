@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion'
 
 const wins = [
-  { title: '4 of 370+', sub: 'Nexus — Strategy Enigma · IIM Lucknow × Rohtak', icon: '🏆' },
+  { title: '4 of 370+', sub: 'Nexus - Strategy Enigma · IIM Lucknow × Rohtak', icon: '🏆' },
   { title: 'National Finalist', sub: 'B-Plan Competition · IIT Bhubaneswar', icon: '🥈' },
   { title: 'Winner', sub: 'Multiverse of Marketing · BITS Pilani', icon: '✨' },
   { title: 'Finalist', sub: 'D. E. Shaw Finspire Fellowship', icon: '✦' },

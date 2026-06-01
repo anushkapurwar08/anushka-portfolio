@@ -8,7 +8,7 @@ export default function ResearchRoom() {
   return (
     <div>
       <p className="mb-8 max-w-2xl text-base leading-relaxed text-ink/65">
-        Three open threads — finance, lung biology, and a stigmatised domain almost no one studies.
+        Three open threads - finance, lung biology, and a stigmatised domain almost no one studies.
       </p>
 
       <div className="grid gap-5 md:grid-cols-3">

@@ -4,13 +4,13 @@ import { motion } from 'framer-motion'
 const internships = [
   {
     role: 'Product & GTM Intern',
-    company: 'Stealth — ex-Uber/Meesho leadership',
+    company: 'Stealth - ex-Uber/Meesho leadership',
     period: 'Sept – Nov 2025',
     headline: 'Took a fuzzy idea and a quiet inbox to ~1,000 leads and a tested wedge.',
     bullets: [
       'Built an automated lead-sourcing & scraping system across Reddit and Instagram.',
-      'Drove −1 → 0 discovery — interviews, low-fi prototypes, adoption tests.',
-      'Ran growth experiments — assets, landing pages, funnels — to validate demand.',
+      'Drove −1 → 0 discovery - interviews, low-fi prototypes, adoption tests.',
+      'Ran growth experiments - assets, landing pages, funnels - to validate demand.',
     ],
     impact: ['~1,000 leads', 'Demand validated', 'PRDs shipped'],
     bg: 'bg-lilac/35',
@@ -20,9 +20,9 @@ const internships = [
     role: 'Founder’s Office Intern',
     company: 'Shoffr',
     period: 'June – Aug 2025',
-    headline: 'Outbound, a new business channel pilot, and a loyalty program — scoped end-to-end.',
+    headline: 'Outbound, a new business channel pilot, and a loyalty program - scoped end-to-end.',
     bullets: [
-      'Owned outreach, follow-ups, coordination — directly contributing to acquisition.',
+      'Owned outreach, follow-ups, coordination - directly contributing to acquisition.',
       'Researched and piloted a new business channel.',
       'Structured a customer loyalty initiative end-to-end.',
     ],
@@ -36,7 +36,7 @@ const internships = [
     period: 'April – May 2025',
     headline: 'Slashed TAT in supply-chain & finance with PRDs and Apps Script automations.',
     bullets: [
-      'Streamlined supply-chain & finance ops — TAT down, cross-team thrash down.',
+      'Streamlined supply-chain & finance ops - TAT down, cross-team thrash down.',
       'Wrote PRDs end-to-end with product, design, and engineering.',
       'Shipped Google Apps Script automations to remove manual steps.',
     ],
