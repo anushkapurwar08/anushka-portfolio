@@ -589,23 +589,23 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
         <boxGeometry args={[BAY_W, 6.2, 0.1]} />
         {wallMat(1)}
       </mesh>
-      {/* center upper (above door) */}
+      {/* center upper (above door) - widened to meet the side columns so no seam shows */}
       <mesh position={[X.mid, 4.7, FRONT_Z]}>
-        <boxGeometry args={[BAY_W, 3.0, 0.1]} />
+        <boxGeometry args={[3.4, 3.0, 0.1]} />
         {wallMat(2)}
       </mesh>
       {/* transom panel closing the gap between the door head and the upper wall */}
       <mesh position={[X.mid, 3.0, FRONT_Z]}>
-        <boxGeometry args={[BAY_W, 0.55, 0.1]} />
+        <boxGeometry args={[3.4, 0.55, 0.1]} />
         {wallMat(3)}
       </mesh>
       {/* ground-floor panels flanking the door so the centre bay reads solid (no see-through gaps) */}
-      <mesh position={[X.mid - 1.05, 1.375, FRONT_Z]}>
-        <boxGeometry args={[0.62, 2.75, 0.1]} />
+      <mesh position={[X.mid - 1.2, 1.375, FRONT_Z]}>
+        <boxGeometry args={[1.0, 2.75, 0.1]} />
         {wallMat(5)}
       </mesh>
-      <mesh position={[X.mid + 1.05, 1.375, FRONT_Z]}>
-        <boxGeometry args={[0.62, 2.75, 0.1]} />
+      <mesh position={[X.mid + 1.2, 1.375, FRONT_Z]}>
+        <boxGeometry args={[1.0, 2.75, 0.1]} />
         {wallMat(6)}
       </mesh>
       {/* pink windows with dark frame + cross mullions (like the homepage dollhouse) */}
