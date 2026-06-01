@@ -549,12 +549,13 @@ function Roof() {
     <group>
       <mesh position={[0, 6.6, 0]} rotation={[0, Math.PI / 4, 0]} castShadow>
         <coneGeometry args={[6.6, 1.9, 4]} />
-        <meshStandardMaterial color={C.roof} roughness={0.85} />
+        <meshStandardMaterial color={C.roof} roughness={0.85} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
       </mesh>
-      {/* a touch of shade under the eave */}
-      <mesh position={[0, 5.7, 0]}>
-        <boxGeometry args={[6.5, 0.1, 6.5]} />
-        <meshStandardMaterial color={C.roofDark} roughness={0.9} />
+      {/* shade under the eave - top edge tucked up INTO the cone (5.7) so no face is coplanar with the
+          cone's base cap (5.65); coplanar faces are what caused the roof to flicker (z-fighting) */}
+      <mesh position={[0, 5.6, 0]}>
+        <boxGeometry args={[6.5, 0.2, 6.5]} />
+        <meshStandardMaterial color={C.roofDark} roughness={0.9} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} />
       </mesh>
     </group>
   )
