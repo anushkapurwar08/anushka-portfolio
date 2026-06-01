@@ -29,8 +29,18 @@ const C = {
   roof: '#D8B4F8',
   roofDark: '#B893E8',
   cream: '#FFF8F0',
+  houseWall: '#FFFDF9',  // bright warm white facade (chosen direction)
   windowGlass: '#F8E8EE',
-  ground: '#EFE4F4',     // soft lilac pad (replaces the muddy greige)
+  ground: '#EFE4F4',     // soft lilac pad
+  // landscaping
+  grass: '#CDE7B2',
+  grassDark: '#B7DC9C',
+  stone: '#EFEAE2',
+  stoneEdge: '#E1D9CB',
+  trunk: '#C8A27C',
+  foliage: '#A9D08A',
+  foliageDeep: '#8FBF74',
+  blossom: '#F6C4D3',
 }
 
 // Camera waypoints per view: [position, lookAt]
@@ -462,6 +472,77 @@ function Hall({ onOpenAbout }: { onOpenAbout: () => void }) {
   )
 }
 
+// ── Landscaping ─────────────────────────────────────────────────────────
+function Tree({ position, scale = 1, blossom = false }: { position: [number, number, number]; scale?: number; blossom?: boolean }) {
+  return (
+    <group position={position} scale={scale}>
+      <mesh position={[0, 0.8, 0]} castShadow><cylinderGeometry args={[0.16, 0.22, 1.6, 12]} /><meshStandardMaterial color={C.trunk} roughness={0.9} /></mesh>
+      <mesh position={[0, 2.0, 0]} castShadow><sphereGeometry args={[0.95, 18, 18]} /><meshStandardMaterial color={blossom ? C.blossom : C.foliage} roughness={0.95} /></mesh>
+      <mesh position={[0.62, 1.62, 0.2]} castShadow><sphereGeometry args={[0.62, 16, 16]} /><meshStandardMaterial color={blossom ? C.blush : C.foliageDeep} roughness={0.95} /></mesh>
+      <mesh position={[-0.58, 1.74, -0.12]} castShadow><sphereGeometry args={[0.58, 16, 16]} /><meshStandardMaterial color={blossom ? C.blossom : C.foliage} roughness={0.95} /></mesh>
+      <mesh position={[0.0, 2.5, 0.15]} castShadow><sphereGeometry args={[0.5, 16, 16]} /><meshStandardMaterial color={blossom ? C.rose : C.foliageDeep} roughness={0.95} /></mesh>
+    </group>
+  )
+}
+
+function Bush({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+  return (
+    <group position={position} scale={scale}>
+      <mesh position={[0, 0.25, 0]} castShadow><sphereGeometry args={[0.42, 14, 14]} /><meshStandardMaterial color={C.foliageDeep} roughness={1} /></mesh>
+      <mesh position={[0.32, 0.18, 0.1]} castShadow><sphereGeometry args={[0.3, 12, 12]} /><meshStandardMaterial color={C.foliage} roughness={1} /></mesh>
+      <mesh position={[-0.3, 0.16, -0.05]} castShadow><sphereGeometry args={[0.28, 12, 12]} /><meshStandardMaterial color={C.foliage} roughness={1} /></mesh>
+      {/* flower dots */}
+      <mesh position={[0.1, 0.55, 0.32]}><sphereGeometry args={[0.06, 8, 8]} /><meshStandardMaterial color={C.blush} /></mesh>
+      <mesh position={[-0.14, 0.48, 0.28]}><sphereGeometry args={[0.05, 8, 8]} /><meshStandardMaterial color={C.mustard} /></mesh>
+      <mesh position={[0.28, 0.4, -0.06]}><sphereGeometry args={[0.05, 8, 8]} /><meshStandardMaterial color={C.lilac} /></mesh>
+    </group>
+  )
+}
+
+// Lawn + stone patio + stepping-stone path + trees, bushes and topiaries around the house
+function Landscape() {
+  const stones: [number, number][] = [[0, 5.0], [0, 6.1], [0, 7.2], [0, 8.3], [0, 9.4]]
+  return (
+    <group>
+      {/* paved patio slab in front of the facade */}
+      <mesh position={[0, -0.02, FRONT_Z + 1.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[6.4, 2.8]} />
+        <meshStandardMaterial color={C.stone} roughness={1} />
+      </mesh>
+      {/* stepping-stone path out toward the viewer */}
+      {stones.map(([sx, sz], i) => (
+        <mesh key={i} position={[sx, 0.0, sz]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <circleGeometry args={[0.62, 28]} />
+          <meshStandardMaterial color={C.stoneEdge} roughness={1} />
+        </mesh>
+      ))}
+      {/* trees flanking the house */}
+      <Tree position={[-6.8, 0, 1.4]} scale={1.5} />
+      <Tree position={[7.4, 0, 0.4]} scale={1.7} blossom />
+      <Tree position={[-7.8, 0, -1.6]} scale={1.2} blossom />
+      <Tree position={[6.4, 0, -2.2]} scale={1.15} />
+      {/* bushes hugging the facade + along the path */}
+      <Bush position={[-2.1, 0, FRONT_Z + 0.5]} scale={1.15} />
+      <Bush position={[2.1, 0, FRONT_Z + 0.5]} scale={1.15} />
+      <Bush position={[-3.6, 0, FRONT_Z + 1.0]} />
+      <Bush position={[3.6, 0, FRONT_Z + 1.0]} />
+      <Bush position={[-1.4, 0, 6.0]} scale={0.8} />
+      <Bush position={[1.4, 0, 6.0]} scale={0.8} />
+      <Bush position={[-1.6, 0, 8.6]} scale={0.7} />
+      <Bush position={[1.6, 0, 8.6]} scale={0.7} />
+      {/* clipped topiaries in brass planters framing the door */}
+      {[-1.1, 1.1].map((tx, i) => (
+        <group key={i} position={[tx, 0, FRONT_Z + 0.55]}>
+          <mesh position={[0, 0.18, 0]}><cylinderGeometry args={[0.12, 0.15, 0.36, 16]} /><meshStandardMaterial color={C.trimWhite} roughness={0.6} /></mesh>
+          <mesh position={[0, 0.37, 0]}><cylinderGeometry args={[0.12, 0.12, 0.04, 16]} /><Gold /></mesh>
+          <mesh position={[0, 0.56, 0]} castShadow><sphereGeometry args={[0.22, 16, 16]} /><meshStandardMaterial color={C.foliageDeep} roughness={1} /></mesh>
+          <mesh position={[0, 0.84, 0]} castShadow><sphereGeometry args={[0.17, 16, 16]} /><meshStandardMaterial color={C.foliage} roughness={1} /></mesh>
+        </group>
+      ))}
+    </group>
+  )
+}
+
 // Roof - soft purple, matching the homepage dollhouse
 function Roof() {
   return (
@@ -494,7 +575,7 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
     }
   })
   const wallMat = (i: number) => (
-    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.cream} roughness={0.9} transparent opacity={1} />
+    <meshStandardMaterial ref={(r) => { if (r) matRefs.current[i] = r as THREE.MeshStandardMaterial }} color={C.houseWall} roughness={0.85} transparent opacity={1} />
   )
   return (
     <group ref={grp}>
@@ -517,6 +598,15 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
       <mesh position={[X.mid, 3.0, FRONT_Z]}>
         <boxGeometry args={[BAY_W, 0.55, 0.1]} />
         {wallMat(3)}
+      </mesh>
+      {/* ground-floor panels flanking the door so the centre bay reads solid (no see-through gaps) */}
+      <mesh position={[X.mid - 1.05, 1.375, FRONT_Z]}>
+        <boxGeometry args={[0.62, 2.75, 0.1]} />
+        {wallMat(5)}
+      </mesh>
+      <mesh position={[X.mid + 1.05, 1.375, FRONT_Z]}>
+        <boxGeometry args={[0.62, 2.75, 0.1]} />
+        {wallMat(6)}
       </mesh>
       {/* pink windows with dark frame + cross mullions (like the homepage dollhouse) */}
       {[X.left, X.right].map((wx, k) => (
@@ -591,16 +681,23 @@ export default function House({
     <>
       <CameraRig view={view} />
       {/* soft, even daylight for a clean Apple-store feel */}
-      <hemisphereLight intensity={0.7} color={'#ffffff'} groundColor={'#efe4f4'} />
+      <hemisphereLight intensity={0.75} color={'#ffffff'} groundColor={'#e6f1da'} />
       <ambientLight intensity={0.45} color={'#fff6ec'} />
-      <directionalLight position={[6, 11, 8]} intensity={1.0} color={'#fff4e6'} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
+      <directionalLight position={[6, 11, 8]} intensity={1.05} color={'#fff4e6'} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
       <directionalLight position={[-6, 6, 4]} intensity={0.35} color={'#efe6ff'} />
 
-      {/* ground - soft lilac pad that blends into the page gradient */}
+      {/* lawn - fresh pastel green */}
       <mesh position={[0, -0.05, 2]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <circleGeometry args={[18, 64]} />
-        <meshStandardMaterial color={C.ground} roughness={1} />
+        <circleGeometry args={[20, 64]} />
+        <meshStandardMaterial color={C.grass} roughness={1} />
       </mesh>
+      {/* a darker grass patch under the house for depth */}
+      <mesh position={[0, -0.045, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <circleGeometry args={[9, 48]} />
+        <meshStandardMaterial color={C.grassDark} roughness={1} />
+      </mesh>
+
+      <Landscape />
 
       {/* room shells - ground: kitchen | hall | sunroom ; upper: niche | studio | niche */}
       <Shell x={X.left} y={GROUND_Y} wall={C.wallBlush} />

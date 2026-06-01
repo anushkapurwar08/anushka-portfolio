@@ -68,8 +68,8 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
         <div className="h-full bg-lilacDeep transition-all duration-700 ease-out" style={{ width: `${tourPct}%` }} />
       </div>
 
-      {/* Top chrome */}
-      <header className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-4 md:p-6">
+      {/* Top chrome - z-50 so Exit/Résumé are clickable even when a room panel is open */}
+      <header className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between p-4 md:p-6">
         <div className="pointer-events-auto flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 shadow-soft backdrop-blur">
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-lilac/40 text-sm">🏠</span>
           <div className="font-display text-base leading-none text-ink">{NAME[view]}</div>
@@ -120,7 +120,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
             key={view}
             initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 40 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col md:w-[42%]"
+            className="absolute right-0 top-0 z-30 flex h-full w-full max-w-md flex-col md:w-[42%]"
           >
             <div className="m-3 mt-20 flex-1 overflow-y-auto rounded-3xl border border-ink/10 bg-white/85 p-5 shadow-soft backdrop-blur md:m-4 md:mt-20 md:p-6">
               <Panel />
@@ -149,7 +149,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
         {aboutOpen && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="absolute inset-0 z-10 flex items-center justify-center bg-ink/30 p-4 backdrop-blur-sm"
+            className="absolute inset-0 z-40 flex items-center justify-center bg-ink/30 p-4 backdrop-blur-sm"
             onClick={() => setAboutOpen(false)}
           >
             <motion.div
