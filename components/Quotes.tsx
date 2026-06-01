@@ -57,7 +57,7 @@ export default function Quotes({ onTour }: { onTour: () => void }) {
                 {q.body}
               </blockquote>
               <figcaption className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-ink/50">
-                — {q.author}
+                - {q.author}
               </figcaption>
             </motion.figure>
           ))}
@@ -70,7 +70,7 @@ export default function Quotes({ onTour }: { onTour: () => void }) {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="mt-16 text-center"
         >
-          <p className="mb-5 text-sm text-ink/60">Now — want a tour of the house?</p>
+          <p className="mb-5 text-sm text-ink/60">Now - want a tour of the house?</p>
           <button
             onClick={onTour}
             className="group inline-flex items-center gap-3 rounded-full bg-lilacDeep px-7 py-4 text-base font-semibold text-cream shadow-soft transition hover:bg-lilacDeep/90"

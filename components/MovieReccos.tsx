@@ -54,7 +54,7 @@ export default function MovieReccos() {
         <span className="text-base">📬</span> Drop your movie reccos!
       </div>
       {sent ? (
-        <p className="text-sm text-ink/70">Noted ✦ thank you — I’ll go watch it.</p>
+        <p className="text-sm text-ink/70">Noted ✦ thank you - I’ll go watch it.</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-2">
           <input

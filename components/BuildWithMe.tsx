@@ -12,7 +12,7 @@ export default function BuildWithMe() {
     e.preventDefault()
     if (!email) return
     const subject = encodeURIComponent('Build with me')
-    const body = encodeURIComponent(`Hi Anushka,\n\nMy email: ${email}\n\n— sent from anushkaland`)
+    const body = encodeURIComponent(`Hi Anushka,\n\nMy email: ${email}\n\n- sent from anushkaland`)
     window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`
     setSent(true)
   }
@@ -40,7 +40,7 @@ export default function BuildWithMe() {
             <label className="block font-display text-base leading-tight text-ink">
               Build with me?
             </label>
-            <p className="mt-1 text-[11px] text-ink/60">Drop your email — I’ll write back.</p>
+            <p className="mt-1 text-[11px] text-ink/60">Drop your email - I’ll write back.</p>
             <input
               type="email"
               required

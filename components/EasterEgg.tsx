@@ -33,7 +33,7 @@ export default function EasterEgg() {
               <div className="absolute -top-3 left-6 h-6 w-20 rotate-2 rounded bg-lilac/70" />
               <div className="text-xs font-bold uppercase tracking-wide text-ink/60">Fun fact</div>
               <p className="mt-2 font-display text-xl leading-snug text-ink">
-                I’ve reviewed 1,000+ startup decks at Conquest — and I still believe mine would win.
+                I’ve reviewed 1,000+ startup decks at Conquest - and I still believe mine would win.
               </p>
               <button
                 onClick={() => setOpen(false)}
