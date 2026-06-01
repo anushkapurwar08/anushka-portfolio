@@ -5,16 +5,16 @@ export type Mode = 'playful' | 'professional'
 export const profile = {
   name: 'Anushka Purwar',
   title: 'AI Product Manager · Founder’s Office · Builder',
-  tagline: 'One word to describe myself — Intuitive.',
-  taglineSub: 'How my friends would describe me — Passionate, Creative, Quirky.',
+  tagline: 'One word to describe myself - Intuitive.',
+  taglineSub: 'How my friends would describe me - Passionate, Creative, Quirky.',
   one: {
     playful: 'This Barbie builds AI products.',
     professional:
-      'AI PM at Glance (InMobi) — product, GTM, and operator-thinking built across founder’s offices and Asia’s largest student-run accelerator.',
+      'AI PM at Glance (InMobi) - product, GTM, and operator-thinking built across founder’s offices and Asia’s largest student-run accelerator.',
   },
   long: {
     playful:
-      'I’m Anushka — part product thinker, part operator, part founder’s-office intern, full-time problem solver. Right now I’m building AI-powered shopping for 50M+ TVs at Glance. I like messy zero-to-one problems and shipping things that move a number.',
+      'I’m Anushka - part product thinker, part operator, part founder’s-office intern, full-time problem solver. Right now I’m building AI-powered shopping for 50M+ TVs at Glance. I like messy zero-to-one problems and shipping things that move a number.',
     professional:
       'BITS Pilani student building AI-powered agentic commerce at Glance (InMobi), with hands-on experience across product, GTM, and operations at early-stage startups, plus mentor-and-government leadership at Asia’s largest student-run accelerator.',
   },
@@ -23,25 +23,25 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/anushka-purwar-5479712aa/',
   resume: '/resume.pdf',
   education: 'B.Pharm + Minor in Finance, BITS Pilani · 2023–2027',
-  eduNote: 'yes, I know — I do neither of those for a living :P',
+  eduNote: 'yes, I know - I do neither of those for a living :P',
 }
 
 // "About the owner" magazine content
 export const about = {
   intro:
-    "Undergrad at BITS Pilani — Pharmacy degree, Finance minor. And no, I don't do either for a living :P",
+    "Undergrad at BITS Pilani - Pharmacy degree, Finance minor. And no, I don't do either for a living :P",
   roles: ['Product Roles', "Founder’s Office Roles"],
   autonomyPre: 'I look forward to roles where I am given ',
   autonomyWord: 'creative autonomy', // rendered in purple + italics
   autonomyPost: '.',
-  movie: 'Fav movie genre — disaster & horror. Drop suggestions, if any 👇',
+  movie: 'Fav movie genre - disaster & horror. Drop suggestions, if any 👇',
 }
 
 // Featured "personal favourite" highlight for the Sunroom
 export const personalFav = {
   label: 'My personal favourite',
   body:
-    "I read an article about menstrual blood having stem cells — and went ahead and researched it for an entire semester, using my own samples. I love doing unconventional stuff, and I'm not scared to start a trend.",
+    "I read an article about menstrual blood having stem cells - and went ahead and researched it for an entire semester, using my own samples. I love doing unconventional stuff, and I'm not scared to start a trend.",
 }
 
 export const experiences = [
@@ -51,7 +51,7 @@ export const experiences = [
     period: 'May 2026 – Present',
     color: 'bg-lilac/30',
     problem:
-      'Reimagine TV-native shopping for 50M+ connected TVs in the US — turning ambient screens into agentic, personalized commerce.',
+      'Reimagine TV-native shopping for 50M+ connected TVs in the US - turning ambient screens into agentic, personalized commerce.',
     actions: [
       'Building AI-powered agentic shopping experiences for 50M+ connected TVs in the US market.',
       'Working at the intersection of AI, commerce, and personalization to reimagine TV-native shopping journeys.',
@@ -61,15 +61,15 @@ export const experiences = [
   },
   {
     role: 'Product & GTM Intern',
-    company: 'Stealth — under ex-Product leadership from Uber & Meesho',
+    company: 'Stealth - under ex-Product leadership from Uber & Meesho',
     period: 'Sept 2025 – Nov 2025',
     color: 'bg-lilac/30',
     problem:
-      'Early-stage product with no validated wedge — needed to find a problem worth building before writing a line of code.',
+      'Early-stage product with no validated wedge - needed to find a problem worth building before writing a line of code.',
     actions: [
-      'Ran −1 → 0 product discovery end-to-end — user interviews, low-fidelity prototypes, and growth experiments to validate demand across multiple problem spaces.',
+      'Ran −1 → 0 product discovery end-to-end - user interviews, low-fidelity prototypes, and growth experiments to validate demand across multiple problem spaces.',
       'Built and tested marketing assets, landing pages, and funnels to pressure-test each hypothesis with real users.',
-      'Turned messy signal into a falsifiable wedge — killing weak bets fast and doubling down on what actually pulled.',
+      'Turned messy signal into a falsifiable wedge - killing weak bets fast and doubling down on what actually pulled.',
     ],
     impact: ['−1 → 0 discovery, end-to-end', 'Demand validated in days', 'Multiple problem spaces tested'],
   },
@@ -80,9 +80,9 @@ export const experiences = [
     color: 'bg-blush',
     problem: 'Early-stage chauffeured-mobility startup looking for repeatable client acquisition and retention plays.',
     actions: [
-      'Owned client outreach, follow-ups, and coordination — directly contributing to acquisition.',
+      'Owned client outreach, follow-ups, and coordination - directly contributing to acquisition.',
       'Researched and piloted a potential new business channel end-to-end.',
-      'Structured a customer loyalty initiative — research, framing, and internal alignment.',
+      'Structured a customer loyalty initiative - research, framing, and internal alignment.',
     ],
     impact: ['New channel piloted', 'Loyalty program scoped', 'Hands-on with founder weekly'],
   },
@@ -94,7 +94,7 @@ export const experiences = [
     problem:
       'Manual supply-chain and finance workflows were leaking time and creating cross-team friction.',
     actions: [
-      'Led end-to-end operational streamlining of supply chain and finance — reducing TAT and cross-team thrash.',
+      'Led end-to-end operational streamlining of supply chain and finance - reducing TAT and cross-team thrash.',
       'Wrote PRDs end-to-end, partnering with product, design, and engineering.',
       'Built Google Apps Script automations that removed manual steps and reduced human error.',
     ],
@@ -102,13 +102,13 @@ export const experiences = [
   },
   {
     role: 'Mentor & Government Relations Lead',
-    company: 'Conquest — E-Cell, BITS Pilani · Asia’s largest student-run accelerator',
+    company: 'Conquest - E-Cell, BITS Pilani · Asia’s largest student-run accelerator',
     period: 'Feb 2024 – Aug 2025',
     color: 'bg-cream',
     problem:
       'Match a cohort of high-signal startups to the right mentors, and bring serious external gravity to the program.',
     actions: [
-      'Evaluated 1,000+ startups, led 120+ founder interviews, and assessed 200+ pitch decks — driving end-to-end mentor matching.',
+      'Evaluated 1,000+ startups, led 120+ founder interviews, and assessed 200+ pitch decks - driving end-to-end mentor matching.',
       'Built the relationship with Sumeet Jarangal (Director, Startup India) for strategic initiatives and government support.',
       'Negotiated key partnerships saving ₹5L+ and curated an audience of 300+ top-tier VCs, founders, and industry leaders.',
     ],
@@ -121,7 +121,7 @@ export const experiences = [
     color: 'bg-blush/70',
     problem: 'Run real consulting engagements while scaling the club’s flagship event and cross-campus reach.',
     actions: [
-      'Led consulting projects for Infosys, Visit Health, and Origin Health — across growth, GTM, ops, and segmentation.',
+      'Led consulting projects for Infosys, Visit Health, and Origin Health - across growth, GTM, ops, and segmentation.',
       'Secured ₹60K in sponsorship from Infra.Market and drove 1,300+ registrations for CaseQuesta (Apogee’s flagship).',
       'Partnered with The ARC to execute an Inter-BITS consulting competition.',
     ],
@@ -129,7 +129,7 @@ export const experiences = [
   },
   {
     role: 'Teaching Assistant',
-    company: 'BITS Digital — Writing Practice & Environmental Sciences',
+    company: 'BITS Digital - Writing Practice & Environmental Sciences',
     period: 'Sept 2025 – May 2026',
     color: 'bg-cream',
     problem: 'Help ~1,000 students improve their academic writing at scale.',
@@ -192,7 +192,7 @@ export const projects: Project[] = [
       'Console-injectable JS script that automates rubric-based grading across 1,000+ submissions with a plagiarism-to-score weighted algorithm.',
       'Handles edge cases (no file, no text), auto-paginates across learner pages, and guards against double-grading.',
     ],
-    why: 'Cut grading time from days to hours — so feedback could actually be useful while the assignment was still fresh.',
+    why: 'Cut grading time from days to hours - so feedback could actually be useful while the assignment was still fresh.',
   },
 ]
 
@@ -202,10 +202,10 @@ export const research = [
     advisor: 'Prof. Rajesh Matai (Senior IEEE Member)',
     period: 'Jan 2026 – May 2026',
     body:
-      'Panel Data Regression on 15 years of MSME data (Prowess, CMIE) — extracting firm-level datasets to analyze financial performance.',
+      'Panel Data Regression on 15 years of MSME data (Prowess, CMIE) - extracting firm-level datasets to analyze financial performance.',
   },
   {
-    title: 'Lung Fibrosis — Laboratory Research',
+    title: 'Lung Fibrosis - Laboratory Research',
     advisor: 'Prof. Rajeev Taliyan, HOD Pharmaceutical Sciences',
     period: 'Jan 2026 – May 2026',
     body:
@@ -221,7 +221,7 @@ export const research = [
 ]
 
 export const achievements = [
-  '4th of 370+ · Nexus — The Strategy Enigma · IIM Lucknow × IIM Rohtak',
+  '4th of 370+ · Nexus - The Strategy Enigma · IIM Lucknow × IIM Rohtak',
   'National Finalist · B-Plan Competition, IIT Bhubaneswar',
   'Winner · Multiverse of Marketing, BITS Pilani',
   'Finalist · D. E. Shaw & Co. Finspire Fellowship',
@@ -258,7 +258,7 @@ export const shelf = [
 
 export const easterEgg = {
   playful:
-    'Fun fact: I’ve reviewed 1,000+ startup decks at Conquest — and I still believe mine would win.',
+    'Fun fact: I’ve reviewed 1,000+ startup decks at Conquest - and I still believe mine would win.',
   professional:
     'Fun fact: Across Conquest I evaluated 1,000+ startups, ran 120+ founder interviews, and reviewed 200+ pitch decks.',
 }

@@ -1,5 +1,5 @@
 // Shared room metadata for both the 3D dreamhouse and the 2D fallback tour.
-// Library was dropped — quotes now live only on the entry scroll.
+// Library was dropped - quotes now live only on the entry scroll.
 export type RoomId = 'kitchen' | 'studio' | 'sunroom'
 export type ViewId = 'exterior' | 'hall' | RoomId | 'farewell'
 
