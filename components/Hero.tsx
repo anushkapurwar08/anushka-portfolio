@@ -32,9 +32,11 @@ export default function Hero() {
             transition={{ delay: 0.2, duration: 0.7 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70"
           >
-            {profile.tagline}
+            {profile.tagline.split(' - ')[0]} -{' '}
+            <span className="font-bold italic text-lilacDeep">{profile.tagline.split(' - ')[1].replace(/\.$/, '')}</span>.
             <br />
-            {profile.taglineSub}
+            {profile.taglineSub.split(' - ')[0]} -{' '}
+            <span className="font-bold italic text-lilacDeep">{profile.taglineSub.split(' - ')[1].replace(/\.$/, '')}</span>.
           </motion.p>
 
           <motion.div
