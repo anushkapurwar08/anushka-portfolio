@@ -27,11 +27,20 @@ export const metadata: Metadata = {
     siteName: 'AnushkaLand',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Anushka Purwar - AI Product Manager · AnushkaLand',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Anushka Purwar - AI Product Manager',
     description: 'Welcome to AnushkaLand. This Barbie builds AI products.',
+    images: ['/og-image.png'],
   },
 }
 
