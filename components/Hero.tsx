@@ -20,10 +20,7 @@ export default function Hero() {
             transition={{ delay: 0.1, duration: 0.7 }}
             className="h-display"
           >
-            Hi <span className="inline-block animate-pulse">👋</span>
-            <br />
-            This is <span className="text-lilacDeep">{profile.name}</span>
-            <span className="ml-1 align-top text-3xl text-lilac">.</span>
+            <span className="text-lilacDeep">{profile.name}</span>
           </motion.h1>
 
           <motion.p
@@ -79,7 +76,7 @@ function Dollhouse() {
       initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
       animate={{ opacity: 1, scale: 1, rotate: 0 }}
       transition={{ delay: 0.2, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="relative mx-auto aspect-square w-full max-w-md float"
+      className="relative mx-auto aspect-square w-full max-w-[15rem] sm:max-w-md float"
     >
       <svg viewBox="0 0 400 400" className="h-full w-full drop-shadow-[0_30px_50px_rgba(45,45,45,0.18)]">
         <polygon points="60,170 200,60 340,170" fill="#D8B4F8" />
