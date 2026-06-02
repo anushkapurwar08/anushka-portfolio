@@ -652,13 +652,37 @@ function Facade({ entered, onEnterHall }: { entered: boolean; onEnterHall: () =>
 }
 
 function CameraRig({ view }: { view: ViewId }) {
-  const { camera } = useThree()
+  const { camera, size } = useThree()
   const tgt = useRef(new THREE.Vector3(...CAMERA.exterior.tgt))
   const look = useRef(new THREE.Vector3(...CAMERA.exterior.tgt))
+  const goalPos = useRef(new THREE.Vector3())
+  const goalTgt = useRef(new THREE.Vector3())
+  const dir = useRef(new THREE.Vector3())
   useFrame(() => {
     const wp = CAMERA[view]
-    camera.position.lerp(new THREE.Vector3(...wp.pos), 0.055)
-    tgt.current.lerp(new THREE.Vector3(...wp.tgt), 0.055)
+    const aspect = size.width / Math.max(1, size.height)
+
+    // Responsive lens: the waypoints are tuned for a wide desktop view. On
+    // narrow / portrait screens a wider FOV keeps the (wide) house in frame.
+    const cam = camera as THREE.PerspectiveCamera
+    const fov = THREE.MathUtils.clamp(45 * Math.max(1, 1.5 / aspect), 45, 60)
+    if (Math.abs(cam.fov - fov) > 0.05) {
+      cam.fov = fov
+      cam.updateProjectionMatrix()
+    }
+
+    goalTgt.current.set(...wp.tgt)
+    goalPos.current.set(...wp.pos)
+    // Even at 60° FOV the full facade is too wide for a phone, so pull the
+    // wide exterior / farewell shots further back in portrait so nothing crops.
+    if (aspect < 1 && (view === 'exterior' || view === 'farewell')) {
+      dir.current.copy(goalPos.current).sub(goalTgt.current)
+      const pull = THREE.MathUtils.clamp(1.05 / aspect, 1, 1.7)
+      goalPos.current.copy(goalTgt.current).addScaledVector(dir.current, pull)
+    }
+
+    camera.position.lerp(goalPos.current, 0.055)
+    tgt.current.lerp(goalTgt.current, 0.055)
     look.current.lerp(tgt.current, 0.2)
     camera.lookAt(look.current)
   })

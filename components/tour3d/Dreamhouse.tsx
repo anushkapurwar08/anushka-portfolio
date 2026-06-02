@@ -56,7 +56,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
     >
       {/* 3D layer */}
       <div className="absolute inset-0">
-        <Canvas shadows camera={{ position: CAMERA.exterior.pos, fov: 45 }} dpr={[1, 1.8]} gl={{ antialias: true }}>
+        <Canvas shadows camera={{ position: CAMERA.exterior.pos, fov: 45 }} dpr={[1, 1.6]} gl={{ antialias: true }}>
           <Suspense fallback={null}>
             <House view={view} entered={entered} onEnterHall={enterHall} onSelectRoom={goRoom} onOpenAbout={() => setAboutOpen(true)} />
           </Suspense>
@@ -122,7 +122,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="absolute right-0 top-0 z-30 flex h-full w-full max-w-md flex-col md:w-[42%]"
           >
-            <div className="m-3 mt-20 flex-1 overflow-y-auto rounded-3xl border border-ink/10 bg-white/85 p-5 shadow-soft backdrop-blur md:m-4 md:mt-20 md:p-6">
+            <div className="m-3 mt-20 flex-1 overflow-y-auto rounded-3xl border border-ink/10 bg-white/85 p-5 pb-28 shadow-soft backdrop-blur md:m-4 md:mt-20 md:p-6 md:pb-6">
               <Panel />
             </div>
           </motion.aside>
@@ -167,7 +167,7 @@ export default function Dreamhouse({ onExit }: { onExit: () => void }) {
 
       {/* Bottom room nav */}
       {entered && view !== 'farewell' && (
-        <nav className="pointer-events-none absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-center gap-2 p-4">
+        <nav className="pointer-events-none absolute inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-2 p-4">
           <div className="pointer-events-auto flex flex-wrap items-center gap-1.5 rounded-full bg-white/80 p-1.5 shadow-soft backdrop-blur">
             <button onClick={() => setView('hall')} className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${view === 'hall' ? 'bg-lilacDeep text-cream' : 'text-ink/70 hover:bg-blush'}`}>Hall</button>
             {ROOM_ORDER.map((id) => (
