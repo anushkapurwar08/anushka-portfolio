@@ -15,13 +15,13 @@ const SITE_URL = 'https://anushka-portfolio-i7xi.vercel.app'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Anushka Purwar - Product Manager',
+  title: 'Anushka Purwar',
   description:
     'Anushka Purwar - PM at Glance (InMobi), builder, founder’s-office operator. BITS Pilani ’27.',
   keywords: ['Anushka Purwar', 'Product Manager', 'Founder’s Office', 'BITS Pilani'],
   alternates: { canonical: SITE_URL },
   openGraph: {
-    title: 'Anushka Purwar - ]Product Manager',
+    title: 'Anushka Purwar',
     description: 'Welcome to AnushkaLand. This Barbie builds AI products.',
     url: SITE_URL,
     siteName: 'AnushkaLand',
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Anushka Purwar - Product Manager · AnushkaLand',
+        alt: 'Anushka Purwar · AnushkaLand',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Anushka Purwar - Product Manager',
+    title: 'Anushka Purwar',
     description: 'Welcome to AnushkaLand. This Barbie builds AI products.',
     images: ['/og-image.png'],
   },
